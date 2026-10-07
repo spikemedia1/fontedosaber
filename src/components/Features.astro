@@ -1,0 +1,48 @@
+---
+// Seção 3 — Diferenciais (só itens publicáveis) + card do Instagram oficial + faixa CTA.
+// Itens permitidos (DESIGN-SYSTEM §3.7): clima, turmas, inclusão, pátio/parquinho, aulas de campo, Instagram.
+import SectionHeader from './SectionHeader.astro';
+import Feature from './Feature.astro';
+import { content, ok, STAGING, pendingLabel } from '../lib/content';
+import { waLink } from '../lib/whatsapp';
+
+const ICONS: Record<string, string> = { clima: 'i-snow', turmas: 'i-users', inclusao: 'i-access', patio: 'i-sun', campo: 'i-sprout' };
+// Texto do card = campo "texto"; sem ele publicável, cai no "valor" (dado curto); sem nenhum, placeholder/oculto.
+const itens = content.diferenciais
+  .filter((d) => d.id in ICONS)
+  .map((d) => {
+    const texto = 'texto' in d && d.texto && ok(d.texto.status) ? d.texto.valor : ok(d.status) ? `${d.valor}.` : undefined;
+    return { ...d, icon: ICONS[d.id], texto };
+  })
+  .filter((d) => d.texto !== undefined || STAGING);
+
+const insta = content.contato.instagram;
+const temInsta = ok(insta.status);
+---
+<section class="section" id="diferenciais" aria-labelledby="dif-title">
+  <div class="container">
+    <SectionHeader id="dif-title" eyebrow="Diferenciais" hand="venha ver de perto!">
+      O que você encontra <span class="hl">aqui</span>
+    </SectionHeader>
+    <div class="grid grid--3">
+      {itens.map((d, i) => (
+        <Feature icon={d.icon} title={d.titulo} i={i}>
+          {d.texto ?? <span class="pending">{pendingLabel(d.status, d.titulo.toLowerCase())}</span>}
+        </Feature>
+      ))}
+      {temInsta && (
+        <Feature icon="i-insta" title="A rotina no Instagram" i={itens.length}>
+          Avisos, projetos e o dia a dia das turmas no perfil oficial da escola.
+          <a slot="after" class="feature__link" href={insta.valor} rel="noopener" target="_blank">{insta.handle}<svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg></a>
+        </Feature>
+      )}
+    </div>
+    <div class="cta-band cta-band--after">
+      <div class="stack">
+        <h3 class="cta-band__title">Quer ver tudo isso de perto?</h3>
+        <p>A visita é rápida e sem compromisso. Você conversa direto com a secretaria pelo WhatsApp.</p>
+      </div>
+      <a class="btn" href={waLink()} data-wa><svg class="icon btn__icon" aria-hidden="true"><use href="#i-calendar" /></svg>Agendar visita</a>
+    </div>
+  </div>
+</section>

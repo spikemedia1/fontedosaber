@@ -1,0 +1,23 @@
+---
+// Card da equipe (adultos). Foto só com termo de imagem assinado e vigente (SafeImage com requireTerm).
+import SafeImage from './SafeImage.astro';
+
+interface Props {
+  i?: number;
+  m: {
+    nome_exibicao: string;
+    funcao: string;
+    formacao: string;
+    status: string;
+    foto?: { arquivo?: string | null; autorizacao?: { termo_assinado?: boolean; valido_ate?: string | null } | null };
+  };
+}
+const { m, i = 0 } = Astro.props;
+const img = { ...m.foto, alt: `${m.nome_exibicao}, ${m.funcao}`, status: m.status };
+---
+<article class="team-card" style={`--i: ${i}`}>
+  <SafeImage img={img} class="team-card__photo" widths={[240, 360]} sizes="120px" requireTerm pendingText="Foto pendente de autorização" />
+  <h3 class="team-card__name">{m.nome_exibicao}</h3>
+  <p class="team-card__role">{m.funcao} · {m.formacao}</p>
+  {m.status === 'ficticio' && <span class="badge badge--demo" data-demo>Exemplo fictício</span>}
+</article>

@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import Topbar from '../components/Topbar.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Wave from '../components/Wave.astro';
+import Stages from '../components/Stages.astro';
+import Features from '../components/Features.astro';
+import Timeline from '../components/Timeline.astro';
+import Team from '../components/Team.astro';
+import Gallery from '../components/Gallery.astro';
+import Events from '../components/Events.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Enroll from '../components/Enroll.astro';
+import Faq from '../components/Faq.astro';
+import Location from '../components/Location.astro';
+import Footer from '../components/Footer.astro';
+import WaFab from '../components/WaFab.astro';
+import StickyCta from '../components/StickyCta.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import { content, ok } from '../lib/content';
+import { equipeVisivel, depoimentosVisiveis, galeriaVisivel, rotinaVisivel } from '../lib/sections';
+import { schoolJsonLd } from '../lib/jsonld';
+
+// Seções na ordem da §4 do DESIGN-SYSTEM, com a cor de fundo de cada uma.
+// As condicionais (equipe, estrutura, eventos, depoimentos) só entram se tiverem conteúdo publicável.
+type Bg = 'bg' | 'alt' | 'brand' | 'dark';
+const sections: { C: any; bg: Bg }[] = [
+  { C: Hero, bg: 'bg' },
+  { C: Stages, bg: 'alt' },
+  { C: Features, bg: 'bg' },
+  ...(rotinaVisivel() ? [{ C: Timeline, bg: 'brand' as Bg }] : []),
+  ...(equipeVisivel().length ? [{ C: Team, bg: 'bg' as Bg }] : []),
+  ...(galeriaVisivel().length ? [{ C: Gallery, bg: 'alt' as Bg }] : []),
+  ...(content.eventos.some((e) => ok(e.status)) ? [{ C: Events, bg: 'bg' as Bg }] : []),
+  ...(depoimentosVisiveis().length ? [{ C: Testimonials, bg: 'alt' as Bg }] : []),
+  { C: Enroll, bg: 'dark' },
+  { C: Faq, bg: 'bg' },
+  { C: Location, bg: 'alt' },
+];
+const jsonLd = schoolJsonLd();
+---
+<Base>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <Topbar />
+  <Nav />
+  <main id="conteudo">
+    {sections.map(({ C, bg }, i) => (
+      <Fragment>
+        {i > 0 && sections[i - 1].bg !== bg && <Wave from={sections[i - 1].bg} to={bg} flip={i % 2 === 0} />}
+        <C />
+      </Fragment>
+    ))}
+  </main>
+  <Footer />
+  <aside aria-label="Atalho para o WhatsApp">
+    <WaFab />
+    <StickyCta />
+  </aside>
+  <CookieBanner />
+</Base>

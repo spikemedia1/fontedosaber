@@ -1,0 +1,9 @@
+---
+// Onda "da fonte" entre seções de cores diferentes. Decorativa.
+// from = cor da seção de cima (fundo da onda) · to = cor da seção de baixo (preenchimento).
+type Bg = 'bg' | 'alt' | 'brand' | 'dark';
+interface Props { from: Bg; to: Bg; flip?: boolean }
+const { from, to, flip = false } = Astro.props;
+const toClass = { bg: 'wave--bg', alt: '', brand: 'wave--brand', dark: 'wave--dark' }[to];
+---
+<svg class:list={['wave', toClass, `wave--from-${from}`, { 'wave--flip': flip }]} viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path fill="currentColor" d="M0 48C180 16 360 16 540 40s360 40 540 16 270-40 360-24V80H0Z"/></svg>

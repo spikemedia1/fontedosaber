@@ -1,0 +1,32 @@
+---
+// Seção 6 — Estrutura: galeria 3:2, sem rostos. Sem fotos publicáveis em produção → seção não existe.
+import SectionHeader from './SectionHeader.astro';
+import SafeImage from './SafeImage.astro';
+import { galeriaVisivel } from '../lib/sections';
+
+const imgs = galeriaVisivel();
+---
+{imgs.length > 0 && (
+  <section class="section section--alt" id="estrutura" aria-labelledby="estrutura-title">
+    <div class="container">
+      <SectionHeader id="estrutura-title" eyebrow="Estrutura">
+        Conheça os <span class="hl">espaços</span>
+        <Fragment slot="lead">Veja onde as crianças passam o dia. Na visita, você conhece tudo de perto.</Fragment>
+      </SectionHeader>
+      <div class="gallery gallery--feature">
+        {imgs.map((img, i) => (
+          <figure class="gallery__item" style={`--i: ${i}`}>
+            <SafeImage
+              img={img}
+              class="gallery__img"
+              widths={i === 0 ? [480, 800, 1200] : [480, 800]}
+              sizes={i === 0 ? '(min-width: 64em) 50vw, 100vw' : '(min-width: 64em) 25vw, (min-width: 48em) 50vw, 100vw'}
+              pendingText={`Foto a produzir: ${img.descricao}`}
+            />
+            <figcaption class="gallery__caption">{img.legenda}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

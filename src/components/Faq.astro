@@ -1,0 +1,32 @@
+---
+// Seção 10 — Perguntas frequentes (<details> nativo) + faixa CTA.
+import SectionHeader from './SectionHeader.astro';
+import { content, ok, STAGING, pendingLabel } from '../lib/content';
+import { waLink } from '../lib/whatsapp';
+
+const itens = content.faq.filter((q) => ok(q.status) || STAGING);
+---
+<section class="section" id="duvidas" aria-labelledby="faq-title">
+  <div class="container container--narrow">
+    <SectionHeader id="faq-title" eyebrow="Dúvidas" center>
+      Perguntas que os pais <span class="hl">mais fazem</span>
+    </SectionHeader>
+    {itens.length > 0 && (
+      <div class="faq">
+        {itens.map((q) => (
+          <details class="faq__item">
+            <summary class="faq__q">{q.pergunta}</summary>
+            <div class="faq__a"><p>{ok(q.status) ? q.resposta : <span class="pending">{pendingLabel(q.status, 'resposta da escola')}</span>}</p></div>
+          </details>
+        ))}
+      </div>
+    )}
+    <div class="cta-band cta-band--after">
+      <div class="stack">
+        <h3 class="cta-band__title">Ficou alguma dúvida?</h3>
+        <p>Pergunte direto para a secretaria pelo WhatsApp ou venha conversar pessoalmente.</p>
+      </div>
+      <a class="btn" href={waLink()} data-wa><svg class="icon btn__icon" aria-hidden="true"><use href="#i-calendar" /></svg>Agendar visita</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,25 @@
+---
+// Seção 5 — Equipe. Só existe com ≥3 perfis completos (e termo de imagem em produção).
+import SectionHeader from './SectionHeader.astro';
+import TeamCard from './TeamCard.astro';
+import { equipeVisivel } from '../lib/sections';
+import { waLink } from '../lib/whatsapp';
+
+const membros = equipeVisivel();
+---
+{membros.length > 0 && (
+  <section class="section" id="equipe" aria-labelledby="equipe-title">
+    <div class="container">
+      <SectionHeader id="equipe-title" eyebrow="Equipe">
+        Quem acompanha o seu <span class="hl">filho</span>
+        <Fragment slot="lead">Professoras e coordenação que você conhece pessoalmente na visita.</Fragment>
+      </SectionHeader>
+      <div class="grid grid--sm">
+        {membros.map((m, i) => <TeamCard m={m} i={i} />)}
+      </div>
+      <p class="section__link">
+        <a class="btn btn--secondary" href={waLink()} data-wa><svg class="icon btn__icon" aria-hidden="true"><use href="#i-calendar" /></svg>Agendar visita para conhecer a equipe</a>
+      </p>
+    </div>
+  </section>
+)}

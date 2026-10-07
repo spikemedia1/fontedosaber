@@ -1,0 +1,7 @@
+---
+// Barra fixa de CTA (celular, <1024px). Aparece após o hero; some no rodapé, no formulário e com teclado aberto.
+import { waLink } from '../lib/whatsapp';
+---
+<div class="sticky-cta" aria-hidden="true">
+  <a class="btn" href={waLink()} data-wa tabindex="-1"><svg class="icon btn__icon" aria-hidden="true"><use href="#i-chat" /></svg>Agendar visita</a>
+</div>

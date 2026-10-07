@@ -1,0 +1,27 @@
+---
+// Brasão inline a partir do arquivo indicado em content.json → marca.logo_vetor.
+// Remove comentários e metadados do SVG e aplica classe e rótulo acessível.
+import { content } from '../lib/content';
+
+interface Props {
+  class?: string;
+  /** true quando o link/elemento pai já tem o nome da escola (evita leitura dupla). */
+  decorative?: boolean;
+}
+const { class: cls = '', decorative = false } = Astro.props;
+
+const files = import.meta.glob<string>('/src/assets/marca/*.svg', { query: '?raw', import: 'default', eager: true });
+const raw = files[`/${content.marca.logo_vetor.valor}`] ?? Object.values(files)[0] ?? '';
+const nome = content.escola.nome_fantasia.valor;
+const a11y = decorative ? 'aria-hidden="true" focusable="false"' : `role="img" aria-label="${nome}"`;
+
+const svg = raw
+  .replace(/<!--[\s\S]*?-->/g, '')
+  .replace(/<metadata>[\s\S]*?<\/metadata>/g, '')
+  .replace(/\s+xmlns:\w+="[^"]*"/g, '')
+  .replace(/\s(?:role|aria-label|class|width|height)="[^"]*"/g, '')
+  .replace('<svg', `<svg class="${cls}" ${a11y}`)
+  .replace(/>\s+</g, '><')
+  .trim();
+---
+<Fragment set:html={svg} />

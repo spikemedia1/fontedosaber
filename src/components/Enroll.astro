@@ -1,0 +1,70 @@
+---
+// Seção 9 — Matrículas (Lei 9.870/99): passos, valores POR ETAPA, outros custos, vagas por turma,
+// período, documentos, proposta de contrato (PDF) e data de publicação. Formulário ao lado.
+import SectionHeader from './SectionHeader.astro';
+import Pending from './Pending.astro';
+import VisitForm from './VisitForm.astro';
+import Money from './Money.astro';
+import { content, get, ok, STAGING, pendingLabel, dataPorExtenso, lista } from '../lib/content';
+
+const m = content.matriculas;
+const ano = m.ano_letivo.valor;
+const docs = lista(get<string>(m.documentos));
+const contrato = get<string>(m.proposta_contrato_url);
+const descontos = get<string>(m.descontos);
+const outros = get<string>(m.outros_custos);
+const dataBr = (v: string) => dataPorExtenso(v);
+---
+<section class="section section--dark" id="matriculas" aria-labelledby="mat-title">
+  <div class="container">
+    <SectionHeader id="mat-title" eyebrow={`Matrículas ${ano}`} hand="esperamos vocês!">
+      {`Matrículas ${ano} `}<span class="hl">abertas</span>
+      <Fragment slot="lead">Valores, documentos e proposta de contrato publicados aqui, para você decidir com calma.</Fragment>
+    </SectionHeader>
+    <div class="enroll__grid">
+      <div class="enroll__main">
+        <ol class="steps">
+          {m.passos.map((p, i) => <li class="steps__item" style={`--i: ${i}`}><h3>{p.titulo}</h3><p>{p.texto}</p></li>)}
+        </ol>
+
+        <table class="price-table">
+          <caption>Valores {ano} por etapa</caption>
+          <thead><tr><th scope="col">Etapa</th><th scope="col">Anuidade</th><th scope="col">Parcelas</th></tr></thead>
+          <tbody>
+            {m.valores_por_etapa.map((v) => ok(v.status) ? (
+              <tr><th scope="row">{v.etapa}</th><td data-label="Anuidade"><Money text={v.anuidade} /></td><td data-label="Parcelas">{v.parcelas}× de <Money text={v.valor_parcela} /></td></tr>
+            ) : STAGING && (
+              <tr><th scope="row">{v.etapa}</th><td colspan="2"><span class="pending">{pendingLabel(v.status, 'anuidade e parcelas')}</span></td></tr>
+            ))}
+            <tr><th scope="row">Outros custos</th><td colspan="2">{outros ? <Money text={outros} /> : <Pending f={m.outros_custos} label="matrícula, material, fardamento — ou “não há”" />}</td></tr>
+            {descontos && <tr><th scope="row">Descontos</th><td colspan="2"><Money text={descontos} /></td></tr>}
+            <tr><th scope="row">Vagas por turma</th><td colspan="2"><Pending f={m.vagas_por_sala} label="número de vagas por sala" /></td></tr>
+          </tbody>
+        </table>
+
+        <div class="enroll__card">
+          <h3>Antes de matricular</h3>
+          <dl class="enroll__dl">
+            <dt>Período de matrícula</dt>
+            <dd><Pending f={m.periodo} label="período" /></dd>
+            <dt>Documentos</dt>
+            <dd>
+              {docs.length ? <ul class="enroll__docs">{docs.map((d) => <li>{d}</li>)}</ul> : <Pending f={m.documentos} label="lista oficial" />}
+            </dd>
+          </dl>
+          {contrato ? (
+            <a class="btn btn--secondary" href={contrato} target="_blank" rel="noopener"><svg class="icon btn__icon" aria-hidden="true"><use href="#i-file" /></svg>Ler a proposta de contrato {ano} (PDF)</a>
+          ) : STAGING && <p><span class="pending">{pendingLabel(m.proposta_contrato_url.status, 'PDF da proposta de contrato')}</span></p>}
+        </div>
+
+        <p class="enroll__legal">
+          Valores, proposta de contrato e número de vagas publicados em <Pending f={m.data_publicacao} label="data" format={dataBr} />,
+          no mínimo 45 dias antes do fim do prazo de matrícula (<Pending f={m.data_final} label="data final" format={dataBr} />), conforme a Lei 9.870/1999, art. 2º.
+        </p>
+      </div>
+      <div class="enroll__aside">
+        <VisitForm />
+      </div>
+    </div>
+  </div>
+</section>

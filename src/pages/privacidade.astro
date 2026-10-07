@@ -1,0 +1,68 @@
+---
+// Política de privacidade em linguagem simples (LGPD). Dados da escola vêm de content.json.
+import Base from '../layouts/Base.astro';
+import Topbar from '../components/Topbar.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Pending from '../components/Pending.astro';
+import { content, get } from '../lib/content';
+
+const e = content.escola;
+const p = content.privacidade;
+const contato = get<string>(p.encarregado_contato);
+const analytics = String(p.analytics.valor);
+const nome = e.nome_fantasia.valor;
+---
+<Base title={`Política de privacidade | ${nome}`} description={`Como a ${nome} usa os dados enviados pelo site: só nome, WhatsApp e etapa de interesse, para agendar a visita.`} path="/privacidade">
+  <Topbar />
+  <Nav home={false} />
+  <main id="conteudo">
+    <section class="section" aria-labelledby="priv-title">
+      <div class="container container--narrow prose">
+        <span class="eyebrow">LGPD</span>
+        <h1 id="priv-title">Política de <span class="hl">privacidade</span></h1>
+        <p class="section__lead">Explicamos aqui, em poucas palavras, o que acontece com os dados que você envia pelo site.</p>
+
+        <h2>Quem cuida dos seus dados</h2>
+        <p>{nome} (<Pending f={e.razao_social} label="razão social" />, CNPJ <Pending f={e.cnpj} label="CNPJ" />), em <Pending f={content.contato.cidade_uf} label="cidade" />.</p>
+
+        <h2>Que dados pedimos</h2>
+        <p>No formulário de visita pedimos só três coisas:</p>
+        <ul>
+          <li>o <strong>seu nome</strong> (do responsável);</li>
+          <li>o <strong>seu WhatsApp</strong>, para a secretaria responder;</li>
+          <li>a <strong>etapa de interesse</strong> (por exemplo, Educação Infantil).</li>
+        </ul>
+        <p>Não pedimos nome, idade, documentos ou informações de saúde da criança pelo site.</p>
+
+        <h2>Para que usamos</h2>
+        <p>Só para responder você e agendar a visita. Se você marcar a opção de novidades, também usamos o seu WhatsApp para mandar avisos da escola, até você pedir para parar.</p>
+
+        <h2>Onde os dados ficam</h2>
+        <p>Este site <strong>não guarda nada</strong>. Ao enviar o formulário, o seu próprio WhatsApp abre com a mensagem pronta, e você decide se envia. A conversa passa a ficar no WhatsApp (serviço da Meta) da secretaria.</p>
+        <p>Por quanto tempo a escola guarda essa conversa: <Pending f={p.prazo_guarda} label="prazo de guarda e como apaga a pedido" /></p>
+
+        <h2>Cookies e medição de visitas</h2>
+        <p>{analytics === 'nenhum'
+          ? 'Este site não usa cookies de rastreio, Pixel do Facebook nem Google Analytics.'
+          : 'Este site só usa ferramentas de medição se você aceitar no aviso de cookies. Você pode recusar sem perder nada.'}</p>
+        <p>O mapa da seção "Onde estamos" só é carregado se você clicar em "Carregar mapa".</p>
+
+        <h2>Seus direitos</h2>
+        <p>Pela Lei Geral de Proteção de Dados (LGPD, Lei 13.709/2018), você pode a qualquer momento:</p>
+        <ul>
+          <li>saber quais dados seus a escola tem;</li>
+          <li>corrigir dados errados;</li>
+          <li>pedir para apagar seus dados;</li>
+          <li>retirar o consentimento e deixar de receber novidades.</li>
+        </ul>
+
+        <h2>Fale com o encarregado de dados</h2>
+        <p>Responsável: <Pending f={p.encarregado_nome} label="nome do encarregado" />. Contato: {contato ? <a href={`mailto:${contato}`}>{contato}</a> : <Pending f={p.encarregado_contato} label="e-mail ou telefone" />}.</p>
+
+        <p class="prose__updated"><a href="/">Voltar para a página inicial</a></p>
+      </div>
+    </section>
+  </main>
+  <Footer home={false} />
+</Base>

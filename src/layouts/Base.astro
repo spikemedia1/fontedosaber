@@ -1,0 +1,62 @@
+---
+// Layout base: metadados, fontes auto-hospedadas, estilos, faixa do modo teste, sprite de ícones e JS mínimo.
+import '../styles/tokens.css';
+import '../styles/components.css';
+import '../styles/site.css';
+import '../styles/motion.css';
+import nunito from '@fontsource-variable/nunito/files/nunito-latin-wght-normal.woff2?url';
+import nunitoSans from '@fontsource-variable/nunito-sans/files/nunito-sans-latin-wght-normal.woff2?url';
+import caveat from '../assets/fonts/caveat-700-subset.woff2?url';
+import Icons from '../components/Icons.astro';
+import { content, STAGING, DEMO } from '../lib/content';
+
+interface Props {
+  title?: string;
+  description?: string;
+  path?: string;
+}
+const { title = content.seo.title, description = content.seo.description, path = '/' } = Astro.props;
+
+// Canonical/OG só com domínio real (http/https) — no teste o campo ainda é [PREENCHER].
+const base = /^https?:\/\//.test(content.seo.url_canonica) ? content.seo.url_canonica.replace(/\/$/, '') : undefined;
+const ogImage = /^https?:\/\/|^\//.test(content.seo.og_image) ? content.seo.og_image : undefined;
+
+// Fontes: Nunito (títulos) e Nunito Sans (texto) variáveis, só latin; Caveat 700 em subconjunto (só as frases manuscritas).
+const fontCss = `
+@font-face{font-family:"Nunito";font-style:normal;font-weight:200 1000;font-display:swap;src:url(${nunito}) format("woff2")}
+@font-face{font-family:"Nunito Sans";font-style:normal;font-weight:200 1000;font-display:swap;src:url(${nunitoSans}) format("woff2")}
+@font-face{font-family:"Caveat";font-style:normal;font-weight:700;font-display:swap;src:url(${caveat}) format("woff2")}`;
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {STAGING && <meta name="robots" content="noindex, nofollow" />}
+    {base && <link rel="canonical" href={`${base}${path}`} />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={content.escola.nome_fantasia.valor} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {base && <meta property="og:url" content={`${base}${path}`} />}
+    {ogImage && <meta property="og:image" content={ogImage.startsWith('/') && base ? `${base}${ogImage}` : ogImage} />}
+    {ogImage && <meta property="og:image:width" content="1200" />}
+    {ogImage && <meta property="og:image:height" content="630" />}
+    <link rel="preload" href={nunito} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={nunitoSans} as="font" type="font/woff2" crossorigin />
+    <style is:inline set:html={fontCss}></style>
+    <script is:inline>document.documentElement.classList.add('js')</script>
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    {DEMO && <aside aria-label="Aviso: site de teste"><div class="demo-banner" data-demo role="note">Site de teste — dados fictícios. Não compartilhe com as famílias.</div></aside>}
+    <Icons />
+    <slot />
+    <script src="../scripts/site.js"></script>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+---
+// Seção 12 — Rodapé de conformidade: marca + slogan, navegação, contato e faixa legal.
+import Brasao from './Brasao.astro';
+import Pending from './Pending.astro';
+import { content, get } from '../lib/content';
+import { waLink } from '../lib/whatsapp';
+
+interface Props { home?: boolean }
+const { home = true } = Astro.props;
+const p = home ? '' : '/';
+const e = content.escola;
+const c = content.contato;
+const priv = content.privacidade;
+const slogan = get<string>(e.slogan);
+const wa = get<string>(c.whatsapp_exibicao);
+const email = get<string>(c.email);
+const encContato = get<string>(priv.encarregado_contato);
+const ano = content.matriculas.ano_letivo.valor;
+---
+<footer class="footer" id="rodape">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <Brasao class="footer__logo" />
+      <p class="footer__name">{e.nome_fantasia.valor}</p>
+      {slogan && <p class="hand">{slogan}</p>}
+    </div>
+    <nav aria-label="Rodapé">
+      <h2>Navegação</h2>
+      <ul class="footer__list">
+        <li><a href={`${p}#etapas`}>Etapas</a></li>
+        <li><a href={`${p}#matriculas`}>Matrículas {ano}</a></li>
+        <li><a href={`${p}#duvidas`}>Dúvidas</a></li>
+        <li><a href={`${p}#onde`}>Onde estamos</a></li>
+        <li><a href={priv.politica_url}>Política de privacidade</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h2>Contato</h2>
+      <ul class="footer__list">
+        <li><svg class="icon" aria-hidden="true"><use href="#i-wa" /></svg>{wa ? <a href={waLink()} data-wa>WhatsApp {wa}</a> : <span>WhatsApp <Pending f={c.whatsapp_exibicao} label="número" /></span>}</li>
+        {c.instagram.status === 'confirmado' && <li><svg class="icon" aria-hidden="true"><use href="#i-insta" /></svg><a href={c.instagram.valor} rel="noopener" target="_blank">Instagram {c.instagram.handle}</a></li>}
+        {email && <li><svg class="icon" aria-hidden="true"><use href="#i-mail" /></svg><a href={`mailto:${email}`}>{email}</a></li>}
+        <li><span>Encarregado de dados: <Pending f={priv.encarregado_nome} label="nome" /> · {encContato ? <a href={`mailto:${encContato}`}>{encContato}</a> : <Pending f={priv.encarregado_contato} label="contato" />}</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__legal">
+    <div class="container">
+      <dl>
+        <dt>Razão social</dt><dd><Pending f={e.razao_social} label="razão social" /></dd>
+        <dt>CNPJ</dt><dd><Pending f={e.cnpj} label="CNPJ" /></dd>
+        <dt>Código INEP</dt><dd><Pending f={e.codigo_inep} label="código INEP" /></dd>
+        <dt>Autorização</dt><dd><Pending f={e.ato_autorizacao} label="ato nº, órgão e data" /></dd>
+        <dt>Etapas autorizadas</dt><dd><Pending f={e.etapas_autorizadas} label="etapas autorizadas" /></dd>
+        <dt>Endereço</dt><dd><Pending f={c.endereco_logradouro} label="endereço" />, <Pending f={c.bairro} label="bairro" />, <Pending f={c.cidade_uf} label="cidade" /> · CEP <Pending f={c.cep} label="CEP" /></dd>
+      </dl>
+      <p class="footer__copy"><a href={priv.politica_url}>Política de privacidade</a> · INEP é o código da escola no Censo Escolar do Ministério da Educação.</p>
+    </div>
+  </div>
+  <div class="stripe" aria-hidden="true"></div>
+</footer>

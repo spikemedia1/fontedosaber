@@ -1,0 +1,20 @@
+---
+// Card de evento: pílula do mês (tom) → título → descrição. Rosa/azul-céu só aqui.
+import { ok, STAGING, pendingLabel } from '../lib/content';
+
+interface Props {
+  ev: { nome: string; mes: string; status_mes: string; descricao: string; status_descricao: string };
+  tone?: 'pink' | 'sky' | 'yellow';
+  i?: number;
+}
+const { ev, tone, i = 0 } = Astro.props;
+const mes = ok(ev.status_mes) ? ev.mes : undefined;
+const desc = ok(ev.status_descricao) ? ev.descricao : undefined;
+---
+<article class:list={['event-card', tone && `event-card--${tone}`]} style={`--i: ${i}`}>
+  {mes ? <span class="event-card__month">{mes}</span> : STAGING && <span class="event-card__month"><span class="pending">{pendingLabel('confirmar', 'mês')}</span></span>}
+  <div class="stack">
+    <h3 class="event-card__title">{ev.nome}</h3>
+    {desc ? <p class="event-card__text">{desc}</p> : STAGING && <p class="event-card__text"><span class="pending">{pendingLabel(ev.status_descricao, 'o que as turmas fazem')}</span></p>}
+  </div>
+</article>

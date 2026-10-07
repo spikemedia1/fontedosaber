@@ -1,0 +1,168 @@
+/* ==========================================================================
+   Escola Fonte do Saber — Movimento (estende @component reveal de components.css)
+   Regras: só transform e opacity (exceções pedidas: background-size do .hl, block-size do FAQ via
+   ::details-content, stroke-dashoffset do "check"); só tokens; cada elemento anima 1 vez; nada em loop.
+   Tudo gated por .js (classe posta no <head>) e por prefers-reduced-motion: no-preference.
+   Sem JS ou com reduced motion: conteúdo visível e parado.
+   ========================================================================== */
+
+/* Marca-texto: base com tamanho explícito para poder "se desenhar" (background-size) */
+.hl { background-repeat: no-repeat; background-size: 100% 100%; }
+
+@keyframes fs-scale-in { from { transform: scale(var(--reveal-scale)); } }
+@keyframes fs-slide-in { from { transform: translate(var(--reveal-distance), var(--reveal-distance)); } }
+@keyframes fs-hl-draw { from { background-size: 0% 100%; } }
+@keyframes fs-pop-in { from { opacity: 0; transform: scale(var(--pop-scale-from)); } }
+@keyframes fs-nudge { 50% { transform: scale(var(--pop-scale-up)); } }
+@keyframes fs-dot { from { transform: scale(0); } }
+@keyframes fs-draw-y { from { transform: scaleY(0); } }
+@keyframes fs-draw-x { from { transform: scaleX(0); } }
+@keyframes fs-grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes fs-fade-up { from { opacity: 0; transform: translateY(var(--reveal-distance-sm)); } }
+@keyframes fs-fade-out { to { opacity: 0; } }
+@keyframes fs-check { from { stroke-dashoffset: 1; } }
+@keyframes fs-shake {
+  25%, 75% { transform: translateX(calc(-1 * var(--shake-distance))); }
+  50% { transform: translateX(var(--shake-distance)); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* @component hero — H1, texto e botões NÃO se escondem (candidatos a LCP) */
+  .js .hero__media .hero__img { animation: fs-scale-in var(--duration-reveal) var(--ease-out) both; }
+  .js .hero__media::before { animation: fs-slide-in var(--duration-reveal) var(--ease-out) var(--delay-short) both; }
+  .js .hero__title .hl { animation: fs-hl-draw var(--duration-draw) var(--ease-out) var(--duration-base) both; }
+  .js .hero__badge { animation: fs-pop-in var(--duration-slow) var(--ease-pop) var(--duration-reveal) both; }
+  /* @end */
+
+  /* @component section-header — faixa do eyebrow cresce → título (marca-texto se desenha) → apoio */
+  .js .section__header.reveal-group > * { opacity: 0; transform: translateY(var(--reveal-distance-sm));
+    transition: opacity var(--duration-reveal) var(--ease-out), transform var(--duration-reveal) var(--ease-out);
+    transition-delay: calc(var(--i, 0) * var(--stagger)); }
+  .js .section__header.reveal-group > :nth-child(2) { --i: 1; }
+  .js .section__header.reveal-group > :nth-child(3) { --i: 2; }
+  .js .section__header.reveal-group > :nth-child(4) { --i: 3; }
+  .js .section__header.reveal-group .eyebrow::before { transform: scaleX(0); transform-origin: left;
+    transition: transform var(--duration-reveal) var(--ease-out); }
+  .js .section__header.reveal-group h2 .hl { background-size: 0% 100%;
+    transition: background-size var(--duration-draw) var(--ease-out) calc(2 * var(--stagger)); }
+  .js .section__header.reveal-group:is(.is-in, :focus-within) > * { opacity: 1; transform: none; }
+  .js .section__header.reveal-group:is(.is-in, :focus-within) .eyebrow::before { transform: none; }
+  .js .section__header.reveal-group:is(.is-in, :focus-within) h2 .hl { background-size: 100% 100%; }
+  /* @end */
+
+  /* @component ondas — no máximo 6px ao entrar (só o desenho; o fundo da onda não se move) */
+  .js .wave.reveal-group path { transform: translateY(var(--reveal-distance-xs)); transition: transform var(--duration-reveal) var(--ease-out); }
+  .js .wave.reveal-group.is-in path { transform: none; }
+  /* @end */
+
+  /* @component steps — números 1 → 2 → 3 estalam em sequência */
+  .js .steps__item.reveal::before { transform: scale(0);
+    transition: transform var(--duration-slow) var(--ease-pop);
+    transition-delay: calc(min(calc(var(--i, 0) * var(--stagger)), var(--stagger-max)) + var(--duration-fast)); }
+  .js .steps__item.reveal:is(.is-in, :focus-within)::before { transform: none; }
+  /* @end */
+
+  /* @component timeline — fallback (IntersectionObserver): trilho se desenha e pontos acendem ao entrar */
+  .js .timeline.reveal-group::before { transform: scaleY(0); transform-origin: top; transition: transform var(--duration-draw) var(--ease-out); }
+  .js .timeline.reveal-group.is-in::before { transform: none; }
+  .js .timeline__item.reveal::before { transform: scale(0); transition: transform var(--duration-slow) var(--ease-pop) var(--duration-fast); }
+  .js .timeline__item.reveal:is(.is-in, :focus-within)::before { transform: none; }
+  @media (min-width: 64em) {
+    .js .timeline.reveal-group::before { transform: scaleX(0); transform-origin: left; }
+    .js .timeline.reveal-group.is-in::before { transform: none; }
+  }
+  /* Longhands de propósito: o minificador junta animation + animation-timeline num shorthand inválido.
+     Com suporte a animation-timeline: o trilho acompanha a rolagem e cada ponto acende quando o passo entra */
+  @supports (animation-timeline: view()) {
+    .js .timeline { view-timeline: --fs-timeline block; }
+    .js .timeline::before { transform-origin: top; animation-name: fs-draw-y; animation-timing-function: linear; animation-fill-mode: both; animation-timeline: --fs-timeline; animation-range: entry 20% cover 55%; }
+    .js .timeline__item { view-timeline: --fs-step block; }
+    .js .timeline__item::before { animation-name: fs-dot; animation-timing-function: linear; animation-fill-mode: both; animation-timeline: --fs-step; animation-range: entry 30% entry 100%; }
+    @media (min-width: 64em) {
+      .js .timeline::before { transform-origin: left; animation-name: fs-draw-x; }
+    }
+  }
+  /* @end */
+
+  /* @component fotos — fade-in quando a imagem termina de carregar (espaço já reservado: nada pula) */
+  .js .fade-img { transition: opacity var(--duration-reveal) var(--ease-out); }
+  .js .fade-img:not(.is-loaded) { opacity: 0; }
+  /* @end */
+
+  /* @component atalhos — "pop" discreto no ícone na 1ª vez que a barra/flutuante aparece */
+  .sticky-cta.pop .btn__icon, .wa-fab.pop svg { animation: fs-nudge var(--duration-slow) var(--ease-pop) var(--duration-slow) both; }
+  /* @end */
+
+  /* @component form — tremor curto no campo com erro; sucesso entra com fade e "check" que se desenha */
+  .shake { animation: fs-shake var(--duration-slow) var(--ease-standard) 2; }
+  .form__status.is-success { animation: fs-fade-up var(--duration-base) var(--ease-out) both; }
+  .form__check path { animation: fs-check var(--duration-draw) var(--ease-out) var(--duration-fast) both; }
+  /* @end */
+
+  /* @component progress — faixa do fardamento sob a navbar enche conforme a leitura (só com suporte) */
+  @supports (animation-timeline: scroll()) {
+    .js .nav::after { content: ""; position: absolute; inset: 100% 0 auto 0; height: var(--stripe-h); pointer-events: none;
+      background: linear-gradient(var(--color-primary) 0 var(--stripe-seg), var(--color-accent) var(--stripe-seg) 100%);
+      transform-origin: left; animation-name: fs-grow-x; animation-timing-function: linear; animation-fill-mode: both; animation-timeline: scroll(root); }
+  }
+  /* @end */
+
+  /* @component faq — abrir/fechar suave (só com suporte a ::details-content + interpolate-size) */
+  @supports (interpolate-size: allow-keywords) and selector(::details-content) {
+    .faq { interpolate-size: allow-keywords; }
+    .faq__item::details-content { block-size: 0; overflow-y: clip;
+      transition: block-size var(--duration-base) var(--ease-standard), content-visibility var(--duration-base) allow-discrete; }
+    .faq__item[open]::details-content { block-size: auto; }
+  }
+  /* @end */
+
+  /* @component page — troca de página nativa (/ ↔ /privacidade), sem roteador JS */
+  @view-transition { navigation: auto; }
+  main { view-transition-name: fs-conteudo; }
+  .nav { view-transition-name: fs-nav; }
+  .nav__logo { view-transition-name: fs-brasao; }
+  ::view-transition-old(fs-conteudo) { animation: fs-fade-out var(--duration-fast) var(--ease-in) both; }
+  ::view-transition-new(fs-conteudo) { animation: fs-fade-up var(--duration-slow) var(--ease-out) both; }
+  /* @end */
+}
+
+/* @component nav — sombra depois do hero (opacity de pseudo-elemento; a altura não muda) */
+.nav::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  box-shadow: var(--shadow-sm); opacity: 0; transition: opacity var(--duration-base) var(--ease-standard); }
+.nav.is-scrolled::before { opacity: 1; }
+/* Seção atual: sublinhado laranja que desliza entre os links (transform; o layout não muda) */
+.nav__links { position: relative; }
+.nav__links::after { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: var(--border-3); pointer-events: none;
+  background: var(--color-primary); border-radius: var(--radius-pill); transform-origin: left;
+  transform: translateX(var(--ink-x, 0)) scaleX(var(--ink-s, 0));
+  transition: transform var(--duration-slow) var(--ease-standard); }
+.nav__links.has-ink a[aria-current="true"] { box-shadow: none; }
+/* @end */
+
+/* @component menu mobile — links entram escalonados ao abrir; saem juntos e rápido ao fechar */
+.nav__panel > * { opacity: 0; transform: translateX(var(--reveal-distance));
+  transition: opacity var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard); }
+.nav__panel[data-open="true"] > * { opacity: 1; transform: none;
+  transition-duration: var(--duration-base);
+  transition-delay: min(calc(var(--i, 0) * var(--stagger)), var(--stagger-max)); }
+/* @end */
+
+/* @component faq — o "+" gira 90° até virar "−" (a transição já existe em components.css) */
+.faq__q::after { transform: rotate(90deg); }
+.faq__item[open] .faq__q::after { transform: none; }
+/* @end */
+
+/* @component form — ícone de sucesso */
+.form__status.is-success { grid-template-columns: auto 1fr; align-items: start; }
+.form__check { width: var(--icon-lg); height: var(--icon-lg); fill: none; stroke: currentColor; stroke-width: var(--icon-stroke);
+  stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; }
+/* @end */
+
+/* @component toque — sem "hover grudado" depois do toque; o :active (press) continua valendo */
+@media (hover: none) {
+  .btn:not(:active):hover { transform: none; background: var(--_bg); box-shadow: var(--_shadow); }
+  .stage-card:hover, .wa-fab:hover { transform: none; }
+  .stage-card:hover { box-shadow: var(--shadow-sm); }
+}
+/* @end */

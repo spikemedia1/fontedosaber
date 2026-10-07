@@ -1,0 +1,294 @@
+/* ==========================================================================
+   Escola Fonte do Saber — Design Tokens v1.0 (gerado por gen_tokens.py)
+   Fonte da verdade: NÃO edite valores soltos nos componentes; edite aqui.
+   Cores da marca (laranja/amarelo) = [ESTIMADO] até a escola enviar HEX/vetor oficial.
+   Breakpoints (não usáveis em @media via var): sm 480 · md 768 · lg 1024 · xl 1280
+   ========================================================================== */
+:root {
+  color-scheme: light;
+
+  /* ---- Cores primitivas ---- */
+  --color-cream-50: #FFFBF4;
+  --color-white: #FFFFFF;
+  --color-sand-100: #FBF3E7;
+  --color-sand-200: #F3E6D3;
+  --color-sand-300: #E6D4BC;
+  --color-ink-400: #7C8595;
+  --color-ink-500: #5B6577;
+  --color-ink-700: #34425A;
+  --color-ink-900: #14233B;
+  --color-orange-50: #FFF5EA;
+  --color-orange-100: #FFE6CC;
+  --color-orange-200: #FFCD99;
+  --color-orange-300: #FFB366;
+  --color-orange-400: #FB9D3B;
+  --color-orange-500: #F5891F;
+  --color-orange-600: #DB6E0A;
+  --color-orange-700: #B25607;
+  --color-orange-800: #8A4208;
+  --color-orange-900: #5C2D07;
+  --color-yellow-50: #FFFAE6;
+  --color-yellow-100: #FFF1BF;
+  --color-yellow-200: #FFE58A;
+  --color-yellow-300: #FFD84F;
+  --color-yellow-400: #FFCB2B;
+  --color-yellow-500: #F2B705;
+  --color-navy-50: #EEF4FB;
+  --color-navy-100: #D8E5F4;
+  --color-navy-200: #B0C9E7;
+  --color-navy-300: #7FA5D3;
+  --color-navy-400: #4E7DB9;
+  --color-navy-500: #2E5F9E;
+  --color-navy-600: #1F4A85;
+  --color-navy-700: #173B6C;
+  --color-navy-800: #112E56;
+  --color-navy-900: #0B2140;
+  --color-pink-100: #FDE4EF;
+  --color-pink-400: #EE5C98;
+  --color-pink-700: #A82860;
+  --color-sky-100: #E0F0FB;
+  --color-sky-400: #3FA3E0;
+  --color-sky-700: #1A6AA3;
+  --color-green-100: #E3F5EA;
+  --color-green-700: #17633A;
+  --color-red-100: #FDE8E6;
+  --color-red-700: #A1281A;
+  --color-wa-green-500: #128C7E;
+  --color-wa-green-600: #0F7A6E;
+
+  /* ---- Cores semânticas (use SEMPRE estas nos componentes) ---- */
+  --color-bg: var(--color-cream-50); /* Fundo da página (60% da área) */
+  --color-bg-alt: var(--color-sand-100); /* Fundo de seção alternada */
+  --color-surface: var(--color-white); /* Cards, formulário, menus */
+  --color-surface-brand: var(--color-orange-50); /* Faixas/cards de destaque da marca */
+  --color-surface-highlight: var(--color-yellow-100); /* Avisos suaves, marca-texto de fundo */
+  --color-surface-dark: var(--color-navy-800); /* Faixa Matrículas e rodapé */
+  --color-surface-dark-alt: var(--color-navy-900); /* Barra inferior do rodapé */
+  --color-text: var(--color-ink-900); /* Títulos e texto forte */
+  --color-text-body: var(--color-ink-700); /* Texto corrido */
+  --color-text-muted: var(--color-ink-500); /* Legendas, apoio (mín. 14px) */
+  --color-text-on-dark: var(--color-white); /* Texto sobre navy */
+  --color-text-on-dark-muted: var(--color-navy-100); /* Texto de apoio sobre navy */
+  --color-text-brand: var(--color-orange-800); /* Eyebrow e texto laranja pequeno */
+  --color-text-brand-lg: var(--color-orange-700); /* Texto laranja só >= 24px ou >= 18.66px bold */
+  --color-text-accent-on-dark: var(--color-yellow-400); /* Destaque de palavra sobre navy */
+  --color-link: var(--color-navy-700); /* Links no texto (sempre sublinhados) */
+  --color-link-hover: var(--color-navy-900); /* Link hover */
+  --color-border: var(--color-sand-300); /* Bordas decorativas de cards */
+  --color-border-subtle: var(--color-sand-200); /* Divisores internos */
+  --color-border-strong: var(--color-ink-400); /* Borda de inputs (>= 3:1) */
+  --color-primary: var(--color-orange-500); /* Fundo do CTA principal */
+  --color-primary-hover: var(--color-orange-600); /* CTA hover/active */
+  --color-primary-shadow: var(--color-orange-800); /* Sombra sólida 'adesivo' do CTA */
+  --color-on-primary: var(--color-ink-900); /* Texto sobre laranja (nunca branco) */
+  --color-secondary: var(--color-navy-700); /* Botão secundário (contorno/texto) */
+  --color-secondary-hover-bg: var(--color-navy-50); /* Fundo hover do secundário */
+  --color-on-secondary: var(--color-white); /* Texto sobre navy sólido */
+  --color-accent: var(--color-yellow-400); /* Marca-texto, selos, CTA sobre navy */
+  --color-on-accent: var(--color-ink-900); /* Texto sobre amarelo (nunca branco) */
+  --color-success: var(--color-green-700); /* Mensagem de sucesso */
+  --color-success-bg: var(--color-green-100); /* Fundo de sucesso */
+  --color-warning: var(--color-orange-800); /* Aviso */
+  --color-warning-bg: var(--color-yellow-100); /* Fundo de aviso */
+  --color-danger: var(--color-red-700); /* Erro de formulário */
+  --color-danger-bg: var(--color-red-100); /* Fundo de erro */
+  --color-info: var(--color-navy-700); /* Informação */
+  --color-info-bg: var(--color-navy-50); /* Fundo de informação */
+  --color-focus: var(--color-navy-600); /* Anel de foco em fundo claro */
+  --color-focus-on-dark: var(--color-yellow-400); /* Anel de foco em fundo navy */
+  --color-whatsapp: var(--color-wa-green-500); /* Botão flutuante WhatsApp */
+  --color-whatsapp-hover: var(--color-wa-green-600); /* Hover do flutuante */
+  --color-on-whatsapp: var(--color-white); /* Ícone sobre verde WhatsApp */
+  --color-event-pink: var(--color-pink-700); /* Texto de selo rosa (só Eventos) */
+  --color-event-pink-bg: var(--color-pink-100); /* Fundo de selo rosa (só Eventos) */
+  --color-event-sky: var(--color-sky-700); /* Texto de selo azul-céu (só Eventos) */
+  --color-event-sky-bg: var(--color-sky-100); /* Fundo de selo azul-céu (só Eventos) */
+  --color-pending: var(--color-orange-800); /* Texto do placeholder [PREENCHER] (só staging) */
+  --color-pending-bg: var(--color-yellow-100); /* Fundo do placeholder [PREENCHER] (só staging) */
+
+  /* ---- Tipografia ---- */
+  --font-display: "Nunito", ui-rounded, "Segoe UI", system-ui, sans-serif;
+  --font-body: "Nunito Sans", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  --font-hand: "Caveat", "Segoe Print", "Bradley Hand", cursive;
+  --weight-regular: 400;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+  --weight-black: 900;
+  --text-display: clamp(2.125rem, 1.587rem + 2.3913vw, 3.5rem); /* 34px→56px · H1 do hero */
+  --text-h2: clamp(1.75rem, 1.4565rem + 1.3043vw, 2.5rem); /* 28px→40px · Título de seção */
+  --text-h3: clamp(1.25rem, 1.1522rem + 0.4348vw, 1.5rem); /* 20px→24px · Título de card */
+  --text-h4: clamp(1.125rem, 1.0761rem + 0.2174vw, 1.25rem); /* 18px→20px · Subtítulo, pergunta do FAQ */
+  --text-lead: clamp(1.125rem, 1.0761rem + 0.2174vw, 1.25rem); /* 18px→20px · Subtítulo do hero/seção */
+  --text-body: 1.0625rem; /* 17px→17px · Texto corrido */
+  --text-small: 0.9375rem; /* 15px→15px · Apoio, labels */
+  --text-caption: 0.875rem; /* 14px→14px · Legendas, rodapé (mínimo absoluto) */
+  --text-eyebrow: 0.875rem; /* 14px→14px · Rótulo acima do título (CAIXA ALTA) */
+  --text-hand: clamp(1.5rem, 1.3043rem + 0.8696vw, 2rem); /* 24px→32px · Frase manuscrita curta (Caveat) */
+  --text-stat: clamp(2rem, 1.7065rem + 1.3043vw, 2.75rem); /* 32px→44px · Número de destaque (só dado confirmado) */
+  --leading-tight: 1.1;
+  --leading-snug: 1.2;
+  --leading-heading: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.6;
+  --tracking-tight: -0.02em;
+  --tracking-snug: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-wider: 0.08em;
+  --measure-prose: 65ch;
+  --measure-narrow: 45ch;
+
+  /* ---- Espaçamento (base 4px) ---- */
+  --space-0: 0rem; /* 0px */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+  --space-14: 3.5rem; /* 56px */
+  --space-16: 4rem; /* 64px */
+  --space-20: 5rem; /* 80px */
+  --space-24: 6rem; /* 96px */
+  --space-32: 8rem; /* 128px */
+
+  /* ---- Layout e tamanhos ---- */
+  --section-py: clamp(3.5rem, 2.5217rem + 4.3478vw, 6rem); /* Padding vertical de seção 56→96px */
+  --section-gap: clamp(2rem, 1.6087rem + 1.7391vw, 3rem); /* Cabeçalho da seção → conteúdo 32→48px */
+  --gutter: clamp(1rem, 0.6087rem + 1.7391vw, 2rem); /* Margem lateral do container 16→32px */
+  --grid-gap: clamp(1rem, 0.6087rem + 1.7391vw, 2rem); /* Gap das grades 16→32px */
+  --card-pad: clamp(1.25rem, 0.9565rem + 1.3043vw, 2rem); /* Padding interno de card 20→32px */
+  --container-max: 1200px; /* Largura máxima do conteúdo */
+  --container-narrow: 760px; /* Texto, FAQ, formulário */
+  --header-h: 64px; /* Altura da navbar (mobile) */
+  --header-h-lg: 76px; /* Altura da navbar (>=1024px) */
+  --topbar-h: 40px; /* Faixa 'Matrículas 2027 abertas' */
+  --stripe-h: 6px; /* Faixa do fardamento (3px laranja + 3px amarelo) */
+  --logo-h: 44px; /* Brasão na navbar (mobile) */
+  --logo-h-lg: 52px; /* Brasão na navbar (desktop) */
+  --tap-min: 48px; /* Alvo de toque mínimo (>=44px WCAG 2.5.5) */
+  --btn-h-sm: 44px; /* Botão pequeno */
+  --btn-h: 52px; /* Botão padrão */
+  --btn-h-lg: 56px; /* Botão do hero */
+  --input-h: 52px; /* Campo de formulário */
+  --fab-size: 56px; /* Botão flutuante WhatsApp */
+  --sticky-bar-h: 64px; /* Barra CTA fixa (mobile) */
+  --icon-sm: 16px; /* Ícone inline */
+  --icon-md: 20px; /* Ícone em botão */
+  --icon-lg: 24px; /* Ícone em card */
+  --icon-xl: 32px; /* Ícone de etapa */
+  --icon-badge: 56px; /* Círculo do ícone de diferencial */
+  --card-min: 264px; /* Largura mínima de card em grade auto-fit */
+  --card-min-sm: 220px; /* Largura mínima de card compacto */
+  --gallery-min: 240px; /* Largura mínima de foto na galeria */
+  --hero-media-max: 560px; /* Largura máxima da imagem do hero */
+  --map-h: 320px; /* Altura da fachada do mapa */
+  --timeline-dot: 16px; /* Marcador da linha do tempo */
+  --avatar: 120px; /* Foto da equipe */
+  --fab-offset: 20px; /* Distância do flutuante às bordas */
+  --stripe-seg: 3px; /* Cada cor da faixa do fardamento */
+  --focus-offset: 3px; /* Afastamento do anel de foco */
+  --menu-panel-w: min(88vw, 360px); /* Largura do menu mobile */
+  --cookie-max: 640px; /* Largura máxima do banner de cookies */
+
+  /* ---- Raios, bordas, sombras ---- */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-2xl: 48px;
+  --radius-pill: 999px;
+  --radius-blob: 62% 38% 54% 46% / 48% 56% 44% 52%;
+  --border-1: 1px;
+  --border-2: 2px;
+  --border-3: 3px;
+  --shadow-xs: 0 1px 2px rgba(20, 35, 59, 0.06);
+  --shadow-sm: 0 2px 6px -1px rgba(20, 35, 59, 0.08);
+  --shadow-md: 0 8px 20px -6px rgba(20, 35, 59, 0.14);
+  --shadow-lg: 0 18px 40px -12px rgba(20, 35, 59, 0.22);
+  --shadow-sticker: 0 4px 0 0 #8A4208;
+  --shadow-sticker-hover: 0 6px 0 0 #8A4208;
+  --shadow-sticker-active: 0 1px 0 0 #8A4208;
+  --shadow-sticker-navy: 0 4px 0 0 #0B2140;
+  --shadow-focus: 0 0 0 3px #FFFBF4, 0 0 0 6px #1F4A85;
+
+  /* ---- Opacidade e camadas ---- */
+  --opacity-disabled: 0.5;
+  --opacity-decor: 0.35;
+  --opacity-overlay: 0.6;
+  --opacity-muted-img: 0.9;
+  --z-base: 0;
+  --z-raised: 1;
+  --z-dropdown: 10;
+  --z-header: 100;
+  --z-sticky-cta: 200;
+  --z-fab: 300;
+  --z-cookie: 400;
+  --z-overlay: 500;
+  --z-skip-link: 1000;
+
+  /* ---- Movimento ---- */
+  --duration-instant: 80ms;
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+  --duration-slow: 320ms;
+  --duration-reveal: 500ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --reveal-distance: 12px;
+  --translate-lift: -2px;
+  --translate-press: 2px;
+  --duration-spin: 800ms;
+  --stagger: 70ms; /* intervalo entre itens em sequência */
+  --stagger-max: 280ms; /* teto do escalonamento (4 itens) */
+  --duration-draw: 700ms; /* traços que se desenham (marca-texto, trilho, check) */
+  --reveal-distance-sm: 8px; /* deslocamento de entrada no celular e nos cabeçalhos */
+  --reveal-distance-xs: 6px; /* ondas entre seções */
+  --reveal-scale: 1.03; /* foto do hero entra de 1.03 para 1 */
+  --pop-scale-from: 0.9; /* selos que "estalam" ao entrar */
+  --pop-scale-up: 1.15; /* pop discreto do ícone do WhatsApp */
+  --shake-distance: 4px; /* tremor do campo com erro */
+  --delay-short: 120ms; /* atraso curto (blob do hero) */
+  --hl-start: 58%;
+  --hl-end: 90%;
+  --underline-offset: 0.18em;
+  --icon-stroke: 2;
+
+  /* ---- Proporções de imagem ---- */
+  --ratio-hero: 4 / 3;
+  --ratio-card: 3 / 2;
+  --ratio-square: 1 / 1;
+  --ratio-portrait: 4 / 5;
+  --ratio-wide: 16 / 9;
+  --ratio-og: 1200 / 630;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-instant: 0ms;
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+    --duration-reveal: 0ms;
+    --reveal-distance: 0px;
+    --translate-lift: 0px;
+    --translate-press: 0px;
+    --stagger: 0ms;
+    --stagger-max: 0ms;
+    --duration-draw: 0ms;
+    --reveal-distance-sm: 0px;
+    --reveal-distance-xs: 0px;
+    --reveal-scale: 1;
+    --pop-scale-from: 1;
+    --pop-scale-up: 1;
+    --shake-distance: 0px;
+    --delay-short: 0ms;
+  }
+}

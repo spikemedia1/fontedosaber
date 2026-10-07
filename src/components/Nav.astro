@@ -1,0 +1,47 @@
+---
+// Navbar sticky (brasão + nome + links ≥1024 + CTA) e menu mobile acessível (<1024).
+import Brasao from './Brasao.astro';
+import { content, get } from '../lib/content';
+import { waLink } from '../lib/whatsapp';
+
+interface Props { home?: boolean }
+const { home = true } = Astro.props;
+const p = home ? '' : '/'; // em outras páginas, âncoras apontam para a home
+
+const links = [
+  ['#etapas', 'Etapas', 'Etapas'],
+  ['#diferenciais', 'Diferenciais', 'Diferenciais'],
+  ['#rotina', 'Rotina', 'Um dia na escola'],
+  ['#estrutura', 'Estrutura', 'Estrutura'],
+  ['#matriculas', 'Matrículas', 'Matrículas'],
+  ['#duvidas', 'Dúvidas', 'Dúvidas'],
+  ['#onde', 'Onde estamos', 'Onde estamos'],
+];
+const nome = content.escola.nome_fantasia.valor;
+const cidade = (get<string>(content.contato.cidade_uf) ?? '').replace(/\s*–\s*/, '-');
+---
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="nav__brand" href={home ? '#inicio' : '/'} aria-label={`${nome} — início`}>
+      <Brasao class="nav__logo" decorative />
+      <span class="nav__name">{nome}<small>Educação Infantil e Fundamental · {cidade}</small></span>
+    </a>
+    <nav aria-label="Principal">
+      <ul class="nav__links">
+        {links.slice(0, 6).map(([href, label]) => <li><a href={`${p}${href}`}>{label}</a></li>)}
+      </ul>
+    </nav>
+    <a class="btn btn--sm nav__cta" href={waLink()} data-wa><svg class="icon btn__icon" aria-hidden="true"><use href="#i-chat" /></svg>Agendar visita</a>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu-mobile" aria-label="Abrir menu">
+      <svg class="icon" aria-hidden="true"><use href="#i-menu" /></svg>
+    </button>
+  </div>
+  <div class="nav__scrim" data-open="false"></div>
+  <nav class="nav__panel" id="menu-mobile" data-open="false" aria-label="Menu">
+    <button class="nav__toggle nav__close" type="button" data-close aria-label="Fechar menu">
+      <svg class="icon" aria-hidden="true"><use href="#i-x" /></svg>
+    </button>
+    {links.map(([href, , long], i) => <a href={`${p}${href}`} style={`--i: ${i + 1}`}>{long}</a>)}
+    <a class="btn btn--block" href={waLink()} data-wa style={`--i: ${links.length + 1}`}><svg class="icon btn__icon" aria-hidden="true"><use href="#i-chat" /></svg>Agendar visita pelo WhatsApp</a>
+  </nav>
+</header>

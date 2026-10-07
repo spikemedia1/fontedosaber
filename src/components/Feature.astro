@@ -1,0 +1,11 @@
+---
+// Card de diferencial: ícone (círculo tracejado) → H3 → texto curto (+ link opcional).
+interface Props { icon: string; title: string; i?: number }
+const { icon, title, i = 0 } = Astro.props;
+---
+<article class="feature" style={`--i: ${i}`}>
+  <span class="feature__icon"><svg class="icon" aria-hidden="true"><use href={`#${icon}`} /></svg></span>
+  <h3>{title}</h3>
+  <p class="feature__text"><slot /></p>
+  <slot name="after" />
+</article>

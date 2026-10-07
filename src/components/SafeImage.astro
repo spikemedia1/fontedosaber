@@ -1,0 +1,66 @@
+---
+// SafeImage — ÚNICA forma de exibir foto no site.
+// Regra (CLAUDE.md, conformidade 1): imagem com tem_rosto_de_aluno=true (ou requireTerm, ex.: equipe)
+// só renderiza com autorizacao.termo_assinado=true e valido_ate >= hoje. Senão: slot "Foto pendente de autorização".
+// Arquivo ausente/não confirmado: em staging mostra "Foto a produzir"; em produção usa o slot "fallback" (ou nada).
+// Foto ilustrativa de teste (status "ficticio"): em dev/staging ganha o selo "Foto ilustrativa" sobreposto
+// (o elemento pai precisa ser position: relative — ver .photo-demo em site.css).
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { ok, STAGING, termoValido } from '../lib/content';
+
+interface Img {
+  arquivo?: string | null;
+  tem_rosto_de_aluno?: boolean;
+  autorizacao?: { termo_assinado?: boolean; valido_ate?: string | null } | null;
+  alt?: string;
+  descricao?: string;
+  status?: string;
+}
+interface Props {
+  img: Img;
+  class?: string;
+  widths?: number[];
+  sizes?: string;
+  priority?: boolean;
+  requireTerm?: boolean;
+  pendingText?: string;
+}
+const { img, class: cls = '', widths = [480, 800], sizes = '(min-width: 64em) 33vw, 100vw', priority = false, requireTerm = false, pendingText } = Astro.props;
+
+const fotos = import.meta.glob<{ default: ImageMetadata }>('/src/assets/fotos/*.{jpg,jpeg,png,webp,avif}', { eager: true });
+const src = img.arquivo ? fotos[`/src/assets/fotos/${img.arquivo}`]?.default : undefined;
+const precisaTermo = requireTerm || img.tem_rosto_de_aluno === true;
+const autorizada = !precisaTermo || termoValido(img.autorizacao);
+const publicavel = Boolean(src) && ok(img.status ?? 'confirmado');
+
+const show = publicavel && autorizada;
+const semAutorizacao = Boolean(src) && !autorizada;
+const msg = semAutorizacao ? 'Foto pendente de autorização' : pendingText ?? `Foto a produzir: ${img.descricao ?? ''}`;
+const hasFallback = Astro.slots.has('fallback');
+---
+{show ? (
+  <Fragment>
+  <Picture
+    src={src!}
+    alt={img.alt ?? ''}
+    formats={['avif', 'webp']}
+    widths={widths}
+    sizes={sizes}
+    class={priority ? cls : `${cls} fade-img`}
+    loading={priority ? 'eager' : 'lazy'}
+    decoding="async"
+    fetchpriority={priority ? 'high' : undefined}
+  />
+  {STAGING && img.status === 'ficticio' && <span class="badge badge--demo photo-demo" data-demo>Foto ilustrativa</span>}
+  </Fragment>
+) : semAutorizacao || STAGING || !hasFallback ? (
+  (semAutorizacao || STAGING) && (
+    <div class:list={[cls, 'photo-pending']} role="img" aria-label={msg}>
+      <svg class="icon" aria-hidden="true"><use href="#i-camoff" /></svg>
+      {msg}
+    </div>
+  )
+) : (
+  <slot name="fallback" />
+)}

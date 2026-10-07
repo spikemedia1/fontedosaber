@@ -1,0 +1,48 @@
+---
+// Formulário mínimo LGPD: nome do responsável, WhatsApp e etapa. Consentimento NÃO pré-marcado +
+// novidades opcional e separado. Envio = abre wa.me com a mensagem (nada é armazenado).
+import { content, get } from '../lib/content';
+import { WA_NUMBER, WA_MSG } from '../lib/whatsapp';
+
+const [inf, fun] = content.etapas;
+const opcoes: string[] = [];
+const nomeInf = get<string>(inf.nome);
+if (nomeInf) opcoes.push(nomeInf);
+// "1º ao 5º ano" → 1º ano … 5º ano; se não der para ler, usa o nome da etapa
+const anos = get<string>(fun.anos)?.match(/(\d+)º\s*ao\s*(\d+)º/);
+if (anos) for (let a = Number(anos[1]); a <= Number(anos[2]); a++) opcoes.push(`${a}º ano`);
+else if (get<string>(fun.nome)) opcoes.push(get<string>(fun.nome)!);
+opcoes.push('Ainda não sei — quero orientação');
+const politica = content.privacidade.politica_url;
+---
+<form class="form" id="form-visita" novalidate aria-labelledby="form-title" data-wa-number={WA_NUMBER} data-wa-msg={WA_MSG}>
+  <h3 id="form-title">Agende sua visita</h3>
+  <p class="form__privacy">Só pedimos o essencial. Nada sobre a criança além da etapa.</p>
+  <div class="field">
+    <label class="field__label" for="f-nome">Seu nome <span class="req" aria-hidden="true">*</span><span class="visually-hidden">(obrigatório)</span></label>
+    <input class="field__input" id="f-nome" name="nome" autocomplete="name" required aria-describedby="f-nome-err" />
+    <span class="field__error" id="f-nome-err"><svg class="icon" aria-hidden="true"><use href="#i-alert" /></svg>Digite seu nome.</span>
+  </div>
+  <div class="field">
+    <label class="field__label" for="f-wa">Seu WhatsApp <span class="req" aria-hidden="true">*</span><span class="visually-hidden">(obrigatório)</span></label>
+    <input class="field__input" id="f-wa" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel-national" required aria-describedby="f-wa-hint f-wa-err" />
+    <span class="field__hint" id="f-wa-hint">Com DDD, só números ou com espaços.</span>
+    <span class="field__error" id="f-wa-err"><svg class="icon" aria-hidden="true"><use href="#i-alert" /></svg>Confira o número: precisa ter DDD + 8 ou 9 dígitos.</span>
+  </div>
+  <div class="field">
+    <label class="field__label" for="f-etapa">Etapa de interesse <span class="req" aria-hidden="true">*</span><span class="visually-hidden">(obrigatório)</span></label>
+    <select class="field__input" id="f-etapa" name="etapa" required aria-describedby="f-etapa-err">
+      <option value="">Escolha uma opção</option>
+      {opcoes.map((o) => <option>{o}</option>)}
+    </select>
+    <span class="field__error" id="f-etapa-err"><svg class="icon" aria-hidden="true"><use href="#i-alert" /></svg>Escolha a etapa.</span>
+  </div>
+  <div class="field">
+    <label class="check"><input type="checkbox" name="consentimento" required aria-describedby="f-cons-err" /><span>Li a <a href={politica}>Política de Privacidade</a> e concordo que a escola use estes dados para responder e agendar a visita. <span class="req" aria-hidden="true">*</span></span></label>
+    <span class="field__error" id="f-cons-err"><svg class="icon" aria-hidden="true"><use href="#i-alert" /></svg>Marque para continuar.</span>
+  </div>
+  <label class="check"><input type="checkbox" name="novidades" /><span>Quero receber novidades da escola pelo WhatsApp (opcional).</span></label>
+  <button class="btn btn--block" type="submit"><svg class="icon btn__icon" aria-hidden="true"><use href="#i-chat" /></svg>Agendar pelo WhatsApp</button>
+  <div class="form__status" role="status" aria-live="polite"></div>
+  <p class="form__privacy">Ao enviar, o WhatsApp abre com a mensagem pronta. Nada fica guardado neste site.</p>
+</form>

@@ -1,0 +1,11 @@
+---
+// Cabeçalho de seção: eyebrow (com faixa do fardamento) → H2 (1 marca-texto via slot) → frase manuscrita → lead.
+interface Props { id: string; eyebrow: string; center?: boolean; hand?: string }
+const { id, eyebrow, center = false, hand } = Astro.props;
+---
+<header class:list={['section__header', { 'section__header--center': center }]}>
+  <span class="eyebrow">{eyebrow}</span>
+  <h2 id={id}><slot /></h2>
+  {hand && <p class="hand">{hand}</p>}
+  {Astro.slots.has('lead') && <p class="section__lead"><slot name="lead" /></p>}
+</header>

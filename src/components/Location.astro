@@ -1,0 +1,69 @@
+---
+// Seção 11 — Localização: endereço, horário, WhatsApp, botões e fachada do mapa (iframe só após clique).
+import SectionHeader from './SectionHeader.astro';
+import Pending from './Pending.astro';
+import { content, get } from '../lib/content';
+import { waLink } from '../lib/whatsapp';
+
+const c = content.contato;
+const logradouro = get<string>(c.endereco_logradouro);
+const bairro = get<string>(c.bairro);
+const cidade = get<string>(c.cidade_uf);
+const geo = get<{ lat: number; lng: number }>(c.geo);
+const email = get<string>(c.email);
+const endereco = [logradouro, bairro, cidade].filter(Boolean).join(', ');
+
+// "Abrir no mapa": coordenadas se publicáveis; senão, busca pelo endereço
+const mapLink = geo
+  ? `https://www.google.com/maps/search/?api=1&query=${geo.lat},${geo.lng}`
+  : endereco ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(endereco)}` : undefined;
+// Mapa embutido (OpenStreetMap, sem cookies de rastreio) — só carrega quando a pessoa pede
+const d = 0.004;
+const embed = geo
+  ? `https://www.openstreetmap.org/export/embed.html?bbox=${geo.lng - d * 1.5}%2C${geo.lat - d}%2C${geo.lng + d * 1.5}%2C${geo.lat + d}&layer=mapnik&marker=${geo.lat}%2C${geo.lng}`
+  : undefined;
+---
+<section class="section section--alt" id="onde" aria-labelledby="onde-title">
+  <div class="container">
+    <SectionHeader id="onde-title" eyebrow="Onde estamos">
+      Venha nos <span class="hl">visitar</span>
+      <Fragment slot="lead">Combine pelo WhatsApp o melhor horário e venha conhecer a escola pessoalmente.</Fragment>
+    </SectionHeader>
+    <div class="location">
+      <div class="location__info">
+        <div class="location__row">
+          <svg class="icon" aria-hidden="true"><use href="#i-pin" /></svg>
+          <p><strong>Endereço</strong><br /><Pending f={c.endereco_logradouro} label="endereço" /><br /><Pending f={c.bairro} label="bairro" />, <Pending f={c.cidade_uf} label="cidade" /> · CEP <Pending f={c.cep} label="CEP" /></p>
+        </div>
+        <div class="location__row">
+          <svg class="icon" aria-hidden="true"><use href="#i-clock" /></svg>
+          <p><strong>Secretaria</strong><br /><Pending f={c.horario_secretaria} label="dias e horários" /></p>
+        </div>
+        <div class="location__row">
+          <svg class="icon" aria-hidden="true"><use href="#i-phone" /></svg>
+          <p><strong>WhatsApp</strong><br /><Pending f={c.whatsapp_exibicao} label="número" /></p>
+        </div>
+        {email && (
+          <div class="location__row">
+            <svg class="icon" aria-hidden="true"><use href="#i-mail" /></svg>
+            <p><strong>E-mail</strong><br /><a href={`mailto:${email}`}>{email}</a></p>
+          </div>
+        )}
+        <div class="btn-group">
+          <a class="btn" href={waLink()} data-wa><svg class="icon btn__icon" aria-hidden="true"><use href="#i-chat" /></svg>Agendar visita</a>
+          {mapLink && <a class="btn btn--secondary" href={mapLink} target="_blank" rel="noopener"><svg class="icon btn__icon" aria-hidden="true"><use href="#i-map" /></svg>Abrir no mapa</a>}
+        </div>
+      </div>
+      {embed && (
+        <div class="map-facade">
+          <div class="map-facade__actions">
+            <svg class="icon" aria-hidden="true"><use href="#i-pin" /></svg>
+            <p>O mapa só carrega se você pedir.</p>
+            <button class="btn btn--sm btn--secondary" type="button" data-map-src={embed} data-map-title={`Mapa: ${endereco}`}>Carregar mapa</button>
+            <p class="map-facade__note">Mapa do OpenStreetMap.</p>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,899 @@
+{
+  "_meta": {
+    "projeto": "Landing page Matrículas 2027 — Escola Fonte do Saber (Jupi-PE)",
+    "versao": "1.0",
+    "gerado_em": "2026-10-07",
+    "fonte_base": "Dossiê preparado pelo usuário (consultado em 05/10/2026)",
+    "status_possiveis": {
+      "confirmado": "Visto direto na fonte oficial ou confirmado por escrito pela escola. PODE publicar.",
+      "provavel": "Veio do Censo/agregadores. NÃO publicar até a escola confirmar.",
+      "confirmar": "Há divergência entre fontes ou falta validação. NÃO publicar.",
+      "preencher": "Dado inexistente nas fontes. A escola precisa fornecer. NÃO publicar.",
+      "ficticio": "Dado de DEMONSTRAÇÃO (inventado ou não confirmado) para o site de teste. Aparece em dev/staging; a produção recusa o build enquanto existir qualquer campo com este status."
+    },
+    "regras_de_publicacao": [
+      "MODO TESTE: campos com status \"ficticio\" renderizam normalmente em dev/staging, com a faixa fixa \"Site de teste — dados fictícios\" no topo; a produção falha se existir QUALQUER campo \"ficticio\". O valor anterior (do dossiê), quando havia, está guardado em \"dossie\".",
+      "Produção renderiza apenas campos com status 'confirmado'.",
+      "Campo obrigatorio=true com status diferente de 'confirmado' FAZ O BUILD DE PRODUÇÃO FALHAR (scripts/check-content.mjs).",
+      "Campo obrigatorio=false com status diferente de 'confirmado' é OCULTADO em produção.",
+      "Em staging/preview, campos não confirmados aparecem como placeholder visível [PREENCHER: ...] ou [CONFIRMAR: ...].",
+      "Imagem com tem_rosto_de_aluno=true só renderiza se autorizacao.termo_assinado=true e a data de hoje <= autorizacao.valido_ate; senão renderiza o slot 'Foto pendente de autorização'.",
+      "Nunca juntar nome completo de criança + turma + foto. Crianças nunca são nomeadas no site."
+    ],
+    "modo": "TESTE — dados fictícios"
+  },
+  "escola": {
+    "nome_fantasia": {
+      "valor": "Escola Fonte do Saber",
+      "status": "confirmado",
+      "fonte": "Instagram @esc_fontedosaber",
+      "obrigatorio": true
+    },
+    "razao_social": {
+      "valor": "Escola Fonte do Saber Ltda.",
+      "status": "ficticio",
+      "fonte": "Agregador de CNPJ",
+      "obrigatorio": true,
+      "dossie": {
+        "valor": "Escola Fonte do Saber Limitada",
+        "status": "provavel"
+      }
+    },
+    "cnpj": {
+      "valor": "00.000.000/0000-00",
+      "status": "ficticio",
+      "fonte": "Agregador de CNPJ",
+      "obrigatorio": true,
+      "dossie": {
+        "valor": "11.642.388/0001-40",
+        "status": "provavel"
+      }
+    },
+    "codigo_inep": {
+      "valor": "00000000",
+      "status": "ficticio",
+      "fonte": "Censo Escolar",
+      "obrigatorio": true,
+      "dossie": {
+        "valor": "26182220",
+        "status": "provavel"
+      }
+    },
+    "ativa_desde": {
+      "valor": "2010",
+      "status": "ficticio",
+      "fonte": "Data de abertura do CNPJ (22/02/2010) — não é necessariamente o início das aulas",
+      "obrigatorio": false,
+      "uso": "Selo 'Em Jupi desde [ano]' no hero",
+      "dossie": {
+        "valor": "2010",
+        "status": "provavel"
+      }
+    },
+    "slogan": {
+      "valor": "Aprendizagem com diversão, alegria e amor!",
+      "status": "confirmado",
+      "fonte": "Bio do Instagram",
+      "obrigatorio": true
+    },
+    "ato_autorizacao": {
+      "valor": "Portaria nº 000/2010 (exemplo)",
+      "status": "ficticio",
+      "obrigatorio": true
+    },
+    "etapas_autorizadas": {
+      "valor": "Educação Infantil e Ensino Fundamental — Anos Iniciais (1º ao 5º ano)",
+      "status": "ficticio",
+      "obrigatorio": true
+    },
+    "historia_resumo": {
+      "valor": "A Fonte do Saber nasceu em 2010 no Loteamento Silvestre com poucas turmas de Educação Infantil e foi crescendo junto com as famílias de Jupi.",
+      "status": "ficticio",
+      "obrigatorio": false
+    },
+    "missao": {
+      "valor": "Cuidar e ensinar cada criança com alegria, respeito e proximidade com a família.",
+      "status": "ficticio",
+      "obrigatorio": false
+    },
+    "total_alunos_censo": {
+      "valor": 172,
+      "status": "provavel",
+      "fonte": "Censo 2025",
+      "obrigatorio": false,
+      "nota": "Não exibir como contador sem confirmação da escola."
+    },
+    "total_professores_censo": {
+      "valor": 12,
+      "status": "provavel",
+      "fonte": "Censo 2025",
+      "obrigatorio": false
+    }
+  },
+  "contato": {
+    "whatsapp_exibicao": {
+      "valor": "(00) 00000-0000",
+      "status": "ficticio",
+      "fonte": "Dossiê",
+      "obrigatorio": true,
+      "dossie": {
+        "valor": "(87) 99931-9123",
+        "status": "provavel"
+      }
+    },
+    "whatsapp_e164": {
+      "valor": "5500000000000",
+      "status": "ficticio",
+      "obrigatorio": true,
+      "nota": "Número inválido de propósito (DDD 00). Para testar o fluxo de verdade, troque pelo SEU número — nunca pelo da escola durante os testes.",
+      "dossie": {
+        "valor": "5587999319123",
+        "status": "provavel"
+      }
+    },
+    "whatsapp_antigo_nao_usar": {
+      "valor": "(87) 9910-7675",
+      "status": "confirmado",
+      "nota": "Número ANTIGO. Nunca publicar."
+    },
+    "mensagem_padrao_whatsapp": {
+      "valor": "Olá! Vi o site da Escola Fonte do Saber e gostaria de agendar uma visita.",
+      "status": "confirmado",
+      "obrigatorio": true,
+      "nota": "Texto redigido para o site; pode ser ajustado pela escola."
+    },
+    "email": {
+      "valor": "secretaria@fontedosaber.example",
+      "status": "ficticio",
+      "obrigatorio": false,
+      "nota": "Domínio .example é reservado para exemplos: não entrega e-mail para ninguém."
+    },
+    "horario_secretaria": {
+      "valor": "Segunda a sexta, das 7h às 17h",
+      "status": "ficticio",
+      "obrigatorio": true
+    },
+    "endereco_logradouro": {
+      "valor": "Rua das Acácias, 120",
+      "status": "ficticio",
+      "obrigatorio": true,
+      "dossie": {
+        "valor": [
+          "Rua Maria José de Araújo, 200 (Censo 2025)",
+          "Rua G, s/n (Instagram/CNPJ)"
+        ],
+        "status": "confirmar"
+      }
+    },
+    "bairro": {
+      "valor": "Loteamento Silvestre",
+      "status": "ficticio",
+      "obrigatorio": true,
+      "dossie": {
+        "valor": "Loteamento Silvestre",
+        "status": "provavel"
+      }
+    },
+    "cidade_uf": {
+      "valor": "Jupi – PE",
+      "status": "confirmado",
+      "fonte": "Faixa do brasão",
+      "obrigatorio": true
+    },
+    "cep": {
+      "valor": "55395-000",
+      "status": "ficticio",
+      "obrigatorio": true,
+      "dossie": {
+        "valor": "55395-000",
+        "status": "provavel"
+      }
+    },
+    "geo": {
+      "valor": {
+        "lat": -8.7128022,
+        "lng": -36.4225995
+      },
+      "status": "ficticio",
+      "obrigatorio": false,
+      "nota": "Confirmar com um pino no Google Maps feito na porta da escola.",
+      "dossie": {
+        "valor": {
+          "lat": -8.7128022,
+          "lng": -36.4225995
+        },
+        "status": "provavel"
+      }
+    },
+    "instagram": {
+      "valor": "https://www.instagram.com/esc_fontedosaber/",
+      "handle": "@esc_fontedosaber",
+      "status": "confirmado",
+      "obrigatorio": true
+    }
+  },
+  "homonimos_nunca_linkar": [
+    "Página de Facebook 'esc.fontedosaber' (Fortaleza-CE)",
+    "Reclame Aqui 'Escola Fonte do Saber' (ABC paulista)",
+    "Colégio Fonte do Saber",
+    "Fonte do Saber de Surubim-PE"
+  ],
+  "marca": {
+    "logo_vetor": {
+      "valor": "src/assets/marca/brasao-placeholder.svg",
+      "status": "ficticio",
+      "obrigatorio": true,
+      "nota": "Escudo genérico com \"FS\" só para o teste. NÃO é o brasão da escola."
+    },
+    "cores_oficiais_hex": {
+      "valor": {
+        "laranja": "#F5891F",
+        "amarelo": "#FFCB2B"
+      },
+      "status": "ficticio",
+      "obrigatorio": false,
+      "nota": "tokens.css usa valores [ESTIMADO]: laranja #F5891F, amarelo #FFCB2B."
+    },
+    "fonte_oficial": {
+      "valor": "[NÃO ENCONTRADO]",
+      "status": "preencher",
+      "obrigatorio": false
+    }
+  },
+  "etapas": [
+    {
+      "id": "infantil",
+      "nome": {
+        "valor": "Educação Infantil",
+        "status": "ficticio",
+        "obrigatorio": true,
+        "dossie": {
+          "valor": "Educação Infantil",
+          "status": "provavel"
+        }
+      },
+      "turmas": {
+        "valor": "Maternal (2 anos), Infantil I (3), Infantil II (4) e Infantil III (5)",
+        "status": "ficticio",
+        "obrigatorio": true
+      },
+      "faixa_etaria": {
+        "valor": "2 a 5 anos",
+        "status": "ficticio",
+        "obrigatorio": true
+      },
+      "atende_creche_bercario": {
+        "valor": "Não — a partir de 2 anos",
+        "status": "ficticio",
+        "obrigatorio": true
+      },
+      "turnos": {
+        "valor": "Manhã (7h às 11h30) ou tarde (13h às 17h)",
+        "status": "ficticio",
+        "obrigatorio": true
+      },
+      "descricao": {
+        "valor": "Brincadeiras, roda de conversa, contação de histórias e primeiras letras, sempre com a mesma professora de referência.",
+        "status": "ficticio",
+        "obrigatorio": false
+      }
+    },
+    {
+      "id": "fundamental",
+      "nome": {
+        "valor": "Ensino Fundamental — Anos Iniciais",
+        "status": "ficticio",
+        "obrigatorio": true,
+        "dossie": {
+          "valor": "Ensino Fundamental — Anos Iniciais",
+          "status": "provavel"
+        }
+      },
+      "anos": {
+        "valor": "1º ao 5º ano",
+        "status": "ficticio",
+        "obrigatorio": true,
+        "nota": "Destaques do Instagram vão até o 4º ano."
+      },
+      "faixa_etaria": {
+        "valor": "6 a 10 anos",
+        "status": "ficticio",
+        "obrigatorio": true
+      },
+      "turnos": {
+        "valor": "Manhã (7h às 11h30) ou tarde (13h às 17h)",
+        "status": "ficticio",
+        "obrigatorio": true
+      },
+      "material_didatico": {
+        "valor": "Coleção didática de editora nacional + material próprio da escola",
+        "status": "ficticio",
+        "obrigatorio": false
+      },
+      "descricao": {
+        "valor": "Alfabetização acompanhada de perto no 1º e 2º ano, tarefa de casa leve e reunião com as famílias a cada bimestre.",
+        "status": "ficticio",
+        "obrigatorio": false
+      }
+    }
+  ],
+  "diferenciais": [
+    {
+      "id": "clima",
+      "titulo": "Salas climatizadas",
+      "valor": "11 salas, todas climatizadas",
+      "texto": {
+        "valor": "Todas as 11 salas têm ar-condicionado, para estudar com conforto no calor de Jupi.",
+        "status": "ficticio"
+      },
+      "status": "ficticio",
+      "obrigatorio": false,
+      "acao_escola": "Confirmar e fotografar as salas (sem alunos).",
+      "dossie": {
+        "valor": "11 salas, todas climatizadas",
+        "status": "provavel"
+      }
+    },
+    {
+      "id": "turmas",
+      "titulo": "Turmas pequenas",
+      "valor": "Até 18 crianças por turma no Infantil e 22 no Fundamental",
+      "texto": {
+        "valor": "Até 18 crianças por turma no Infantil e 22 no Fundamental. A professora acompanha cada uma de perto.",
+        "status": "ficticio"
+      },
+      "status": "ficticio",
+      "obrigatorio": false,
+      "nota": "O Censo dá ~14 alunos por professor (média geral). Isso NÃO é tamanho de turma; não publicar como tal."
+    },
+    {
+      "id": "inclusao",
+      "titulo": "Inclusão de verdade",
+      "valor": "Rampas, corrimão e sinalização visual; recebe alunos com deficiência sem cobrança adicional",
+      "texto": {
+        "valor": "Rampas, corrimão e sinalização visual. Crianças com deficiência são recebidas sem cobrança adicional.",
+        "status": "ficticio"
+      },
+      "status": "ficticio",
+      "obrigatorio": false,
+      "acao_escola": "Confirmar como funciona o atendimento (profissional de apoio, AEE) antes de publicar.",
+      "dossie": {
+        "valor": "Rampas, corrimão e sinalização visual; recebe alunos com deficiência sem cobrança adicional",
+        "status": "provavel"
+      }
+    },
+    {
+      "id": "patio",
+      "titulo": "Pátio coberto e parquinho",
+      "valor": "Pátio coberto e parquinho",
+      "texto": {
+        "valor": "Espaço para brincar na sombra na hora do recreio.",
+        "status": "ficticio"
+      },
+      "status": "ficticio",
+      "obrigatorio": false,
+      "acao_escola": "Confirmar e fotografar sem crianças.",
+      "dossie": {
+        "valor": "Pátio coberto e parquinho",
+        "status": "provavel"
+      }
+    },
+    {
+      "id": "campo",
+      "titulo": "Aprender fora da sala",
+      "valor": "Aulas de campo (ex.: projeto 'Detetives da saúde')",
+      "texto": {
+        "valor": "Nas aulas de campo, como o projeto Detetives da Saúde, a turma sai para observar, perguntar e registrar o que descobriu.",
+        "status": "ficticio"
+      },
+      "status": "confirmado",
+      "fonte": "Instagram",
+      "obrigatorio": false
+    },
+    {
+      "id": "infantil_forte",
+      "titulo": "Educação Infantil é a nossa casa",
+      "valor": "Maior parte dos alunos está na Educação Infantil",
+      "status": "ficticio",
+      "obrigatorio": false,
+      "dossie": {
+        "valor": "Maior parte dos alunos está na Educação Infantil",
+        "status": "provavel"
+      }
+    }
+  ],
+  "nao_publicar": [
+    {
+      "item": "Piscina, biblioteca, auditório, laboratório (informática/ciências), quadra",
+      "motivo": "Agregador lista, Censo contradiz. Só com confirmação + foto."
+    },
+    {
+      "item": "Faixa de preços do portal Melhor Escola (R$ 199 a R$ 2.999)",
+      "motivo": "Texto padrão do portal, sem valor real."
+    },
+    {
+      "item": "'Escola autorizada' sem número do ato",
+      "motivo": "Exigir número e data do ato."
+    },
+    {
+      "item": "Portaria, segurança, câmeras ou controle de saída como diferencial",
+      "motivo": "Censo registra ausência de segurança patrimonial."
+    },
+    {
+      "item": "Depoimentos, notas, prêmios, resultados de alfabetização, olimpíadas, aprovados",
+      "motivo": "Não existem nas fontes. Não inventar."
+    },
+    {
+      "item": "Comparações com a rede municipal ou com a concorrente",
+      "motivo": "Sem base verificável (CDC art. 37)."
+    }
+  ],
+  "rotina": {
+    "turnos": {
+      "valor": "Manhã: 7h às 11h30 · Tarde: 13h às 17h",
+      "status": "ficticio",
+      "obrigatorio": true
+    },
+    "passos": [
+      {
+        "horario": "7h",
+        "titulo": "Chegada e acolhida",
+        "texto": "A professora recebe cada criança na porta da sala.",
+        "status": "ficticio"
+      },
+      {
+        "horario": "7h30",
+        "titulo": "Roda de conversa",
+        "texto": "Calendário, novidades do dia e combinados da turma.",
+        "status": "ficticio"
+      },
+      {
+        "horario": "8h",
+        "titulo": "Atividades da turma",
+        "texto": "Projetos, leitura e escrita, matemática e artes.",
+        "status": "ficticio"
+      },
+      {
+        "horario": "9h30",
+        "titulo": "Lanche",
+        "texto": "Lanche trazido de casa, feito junto com a turma.",
+        "status": "ficticio"
+      },
+      {
+        "horario": "10h",
+        "titulo": "Recreio no pátio",
+        "texto": "Brincadeiras no pátio coberto e no parquinho, com as professoras por perto.",
+        "status": "ficticio"
+      },
+      {
+        "horario": "11h30",
+        "titulo": "Saída",
+        "texto": "A criança é entregue só a responsáveis cadastrados na secretaria.",
+        "status": "ficticio"
+      }
+    ]
+  },
+  "equipe": {
+    "exibir_secao": true,
+    "nota": "MODO TESTE: perfis fictícios, sem foto (slot \"Foto pendente de autorização\"). Em produção a seção só aparece com perfis reais e termo de imagem.",
+    "membros": [
+      {
+        "nome_exibicao": "Tia Ana",
+        "nome_completo_adulto": "[fictício]",
+        "funcao": "Professora do Infantil II",
+        "formacao": "Pedagogia",
+        "foto": {
+          "arquivo": null,
+          "autorizacao": {
+            "termo_assinado": false,
+            "valido_ate": null,
+            "canais": [
+              "site",
+              "instagram"
+            ]
+          }
+        },
+        "status": "ficticio"
+      },
+      {
+        "nome_exibicao": "Tia Carla",
+        "nome_completo_adulto": "[fictício]",
+        "funcao": "Professora do 1º ano",
+        "formacao": "Pedagogia, especialização em alfabetização",
+        "foto": {
+          "arquivo": null,
+          "autorizacao": {
+            "termo_assinado": false,
+            "valido_ate": null,
+            "canais": [
+              "site",
+              "instagram"
+            ]
+          }
+        },
+        "status": "ficticio"
+      },
+      {
+        "nome_exibicao": "Tia Juliana",
+        "nome_completo_adulto": "[fictício]",
+        "funcao": "Professora do Infantil III",
+        "formacao": "Pedagogia",
+        "foto": {
+          "arquivo": null,
+          "autorizacao": {
+            "termo_assinado": false,
+            "valido_ate": null,
+            "canais": [
+              "site",
+              "instagram"
+            ]
+          }
+        },
+        "status": "ficticio"
+      },
+      {
+        "nome_exibicao": "Márcia",
+        "nome_completo_adulto": "[fictício]",
+        "funcao": "Coordenadora pedagógica",
+        "formacao": "Pedagogia, especialização em gestão escolar",
+        "foto": {
+          "arquivo": null,
+          "autorizacao": {
+            "termo_assinado": false,
+            "valido_ate": null,
+            "canais": [
+              "site",
+              "instagram"
+            ]
+          }
+        },
+        "status": "ficticio"
+      }
+    ]
+  },
+  "eventos": [
+    {
+      "id": "folclore",
+      "nome": "Folclore",
+      "mes": "agosto",
+      "status_mes": "ficticio",
+      "descricao": "Apresentações das turmas sobre lendas e brincadeiras populares, com exposição de trabalhos para as famílias.",
+      "status": "confirmado",
+      "fonte": "Instagram",
+      "status_descricao": "ficticio"
+    },
+    {
+      "id": "sete-setembro",
+      "nome": "7 de Setembro — desfile e fanfarra",
+      "mes": "setembro",
+      "status_mes": "confirmado",
+      "descricao": "Desfile cívico pelas ruas do bairro, com a fanfarra da escola.",
+      "status": "confirmado",
+      "fonte": "Instagram",
+      "status_descricao": "ficticio"
+    },
+    {
+      "id": "semana-crianca",
+      "nome": "Semana da Criança",
+      "mes": "outubro",
+      "status_mes": "ficticio",
+      "descricao": "Uma semana de brincadeiras, gincanas e atividades especiais para todas as turmas.",
+      "status": "confirmado",
+      "fonte": "Instagram",
+      "status_descricao": "ficticio"
+    },
+    {
+      "id": "fonte-folia",
+      "nome": "Fonte Folia",
+      "mes": "fevereiro",
+      "status_mes": "ficticio",
+      "descricao": "O baile de carnaval da escola, com fantasias e marchinhas.",
+      "status": "confirmado",
+      "fonte": "Instagram",
+      "status_descricao": "ficticio"
+    },
+    {
+      "id": "aulas-campo",
+      "nome": "Aulas de campo — Detetives da saúde",
+      "mes": "ao longo do ano",
+      "status_mes": "ficticio",
+      "descricao": "Saídas pedagógicas para observar, investigar e registrar, como no projeto Detetives da Saúde.",
+      "status": "confirmado",
+      "fonte": "Instagram",
+      "status_descricao": "ficticio"
+    },
+    {
+      "id": "inclusao",
+      "nome": "Ações de inclusão",
+      "mes": "ao longo do ano",
+      "status_mes": "ficticio",
+      "descricao": "Atividades sobre respeito às diferenças e acessibilidade, com toda a escola.",
+      "status": "confirmado",
+      "fonte": "Instagram",
+      "status_descricao": "ficticio"
+    }
+  ],
+  "depoimentos": {
+    "exibir_secao": true,
+    "regra": "Somente depoimentos reais de pais/responsáveis, com autorização escrita guardada pela escola. Nunca de criança. Assinatura: primeiro nome do adulto + relação + etapa (ex.: 'Ana, mãe de aluno do Infantil'). Nunca o nome da criança.",
+    "itens": [
+      {
+        "texto": "A adaptação foi tranquila. As professoras mandam notícias e a gente se sente perto da rotina dele.",
+        "autor": "Mariana, mãe de aluno do Infantil II",
+        "ficticio": true,
+        "autorizacao_escrita": false,
+        "status": "ficticio"
+      },
+      {
+        "texto": "Gosto de saber o que minha filha está aprendendo. As reuniões são frequentes e a coordenação sempre atende.",
+        "autor": "José, pai de aluna do 2º ano",
+        "ficticio": true,
+        "autorizacao_escrita": false,
+        "status": "ficticio"
+      },
+      {
+        "texto": "Ele chega em casa contando das aulas de campo. Fomos muito bem recebidos desde a primeira visita.",
+        "autor": "Patrícia, mãe de aluno do Infantil III",
+        "ficticio": true,
+        "autorizacao_escrita": false,
+        "status": "ficticio"
+      }
+    ],
+    "nota": "MODO TESTE: depoimentos INVENTADOS. Em staging cada um mostra o selo \"Exemplo fictício\". A produção recusa o build enquanto existirem."
+  },
+  "matriculas": {
+    "ano_letivo": {
+      "valor": 2027,
+      "status": "confirmado",
+      "obrigatorio": true
+    },
+    "periodo": {
+      "valor": "De 3 de novembro de 2026 a 31 de janeiro de 2027",
+      "status": "ficticio",
+      "obrigatorio": true
+    },
+    "data_final": {
+      "valor": "2027-01-31",
+      "status": "ficticio",
+      "obrigatorio": true,
+      "nota": "Valores, contrato e vagas devem estar publicados no mínimo 45 dias ANTES desta data (Lei 9.870/99, art. 2º)."
+    },
+    "data_publicacao": {
+      "valor": "2026-11-03",
+      "status": "ficticio",
+      "obrigatorio": true,
+      "nota": "Data em que valores, contrato e vagas foram publicados no site. check-content.mjs exige >= 45 dias antes de data_final."
+    },
+    "valores_por_etapa": [
+      {
+        "etapa": "Educação Infantil",
+        "anuidade": "R$ 4.800,00",
+        "parcelas": "12",
+        "valor_parcela": "R$ 400,00",
+        "status": "ficticio"
+      },
+      {
+        "etapa": "Ensino Fundamental — Anos Iniciais",
+        "anuidade": "R$ 5.400,00",
+        "parcelas": "12",
+        "valor_parcela": "R$ 450,00",
+        "status": "ficticio"
+      }
+    ],
+    "outros_custos": {
+      "valor": "Taxa de matrícula: R$ 150,00 · Material didático (Fundamental): R$ 380,00 · Fardamento: comprado à parte",
+      "status": "ficticio",
+      "obrigatorio": true
+    },
+    "descontos": {
+      "valor": "10% para irmãos · 5% para pagamento até o dia 5",
+      "status": "ficticio",
+      "obrigatorio": false
+    },
+    "vagas_por_sala": {
+      "valor": "Infantil: até 18 crianças · Fundamental: até 22 crianças",
+      "status": "ficticio",
+      "obrigatorio": true
+    },
+    "proposta_contrato_url": {
+      "valor": "/docs/proposta-contrato-2027-EXEMPLO.pdf",
+      "status": "ficticio",
+      "obrigatorio": true
+    },
+    "documentos": {
+      "valor": "Certidão de nascimento da criança · Documento com foto e CPF do responsável · Comprovante de residência · Cartão de vacinação · Declaração de transferência (Fundamental)",
+      "status": "ficticio",
+      "obrigatorio": true
+    },
+    "passos": [
+      {
+        "titulo": "Agende a visita",
+        "texto": "Fale com a secretaria pelo WhatsApp e escolha um horário."
+      },
+      {
+        "titulo": "Conheça a escola",
+        "texto": "Veja as salas, converse com a coordenação e tire dúvidas."
+      },
+      {
+        "titulo": "Leve os documentos",
+        "texto": "A matrícula é feita presencialmente na secretaria."
+      }
+    ]
+  },
+  "faq": [
+    {
+      "id": "por-que-pagar",
+      "pergunta": "Por que escolher uma escola particular se a pública é gratuita?",
+      "resposta": "Cada família decide o que é melhor para o seu filho. Aqui as turmas têm até 18 crianças no Infantil e 22 no Fundamental, todas as salas são climatizadas e você conversa direto com a professora e a coordenação. Venha conhecer e compare com calma.",
+      "status": "ficticio"
+    },
+    {
+      "id": "custos",
+      "pergunta": "Quanto custa? Tem alguma taxa além da mensalidade?",
+      "resposta": "A anuidade 2027 é de R$ 4.800,00 no Infantil e R$ 5.400,00 no Fundamental, em 12 parcelas. Além dela, há a taxa de matrícula (R$ 150,00) e o material didático do Fundamental (R$ 380,00). O fardamento é comprado à parte. Tudo está na proposta de contrato 2027.",
+      "status": "ficticio"
+    },
+    {
+      "id": "quem-cuida",
+      "pergunta": "Quem cuida do meu filho durante o dia?",
+      "resposta": "Cada turma tem uma professora formada em Pedagogia. No Infantil, a turma também conta com uma auxiliar. A coordenação pedagógica acompanha o dia a dia de perto.",
+      "status": "ficticio"
+    },
+    {
+      "id": "entrada-saida",
+      "pergunta": "Como funciona a entrada e a saída das crianças?",
+      "resposta": "Na entrada, a professora recebe a criança na porta da sala. Na saída, a criança só é entregue a responsáveis cadastrados na secretaria; se outra pessoa for buscar, é preciso avisar antes.",
+      "status": "ficticio"
+    },
+    {
+      "id": "alfabetizacao",
+      "pergunta": "Como a escola acompanha a alfabetização?",
+      "resposta": "No 1º e no 2º ano a turma tem atividades diárias de leitura e escrita, e a professora acompanha o avanço de cada criança. Os pais recebem um relatório por bimestre e podem marcar conversa com a coordenação. A BNCC prevê que a alfabetização aconteça nos dois primeiros anos do Ensino Fundamental.",
+      "status": "ficticio"
+    },
+    {
+      "id": "depois",
+      "pergunta": "E quando meu filho terminar o último ano daqui?",
+      "resposta": "A escola atende até o 5º ano. No fim do ano, a secretaria entrega o histórico escolar e a declaração de transferência para a matrícula na próxima escola.",
+      "status": "ficticio"
+    },
+    {
+      "id": "regularizacao",
+      "pergunta": "A escola é regularizada?",
+      "resposta": "Sim. A escola tem código INEP 00000000 e funciona com autorização da Portaria nº 000/2010.",
+      "status": "ficticio"
+    },
+    {
+      "id": "inclusao",
+      "pergunta": "Vocês recebem crianças com deficiência? Cobra algo a mais?",
+      "resposta": "Sim, sem cobrança de valor adicional, como determina a Lei Brasileira de Inclusão. Quando necessário, a criança conta com profissional de apoio. Converse com a coordenação na visita.",
+      "status": "ficticio"
+    }
+  ],
+  "imagens": [
+    {
+      "slot": "hero",
+      "descricao": "Sala climatizada arrumada, luz da manhã, sem alunos",
+      "arquivo": "teste-hero-sala-infantil.jpg",
+      "tem_rosto_de_aluno": false,
+      "autorizacao": null,
+      "alt": "Foto ilustrativa: sala de Educação Infantil com mesas e cadeiras pequenas",
+      "status": "ficticio",
+      "legenda": "Sala de aula",
+      "credito": "https://www.pexels.com/photo/brown-wooden-table-with-chairs-8088099/",
+      "licenca": "Pexels License"
+    },
+    {
+      "slot": "estrutura-sala",
+      "descricao": "Sala de aula arrumada, sem alunos",
+      "arquivo": "teste-sala-de-aula.jpg",
+      "tem_rosto_de_aluno": false,
+      "autorizacao": null,
+      "alt": "Foto ilustrativa: sala de aula com carteiras e quadro",
+      "legenda": "Sala de aula",
+      "status": "ficticio",
+      "credito": "https://unsplash.com/photos/PDRFeeDniCk",
+      "licenca": "Unsplash License"
+    },
+    {
+      "slot": "estrutura-patio",
+      "descricao": "Pátio coberto vazio",
+      "arquivo": null,
+      "tem_rosto_de_aluno": false,
+      "autorizacao": null,
+      "alt": "Pátio coberto da escola",
+      "status": "preencher",
+      "legenda": "Pátio coberto"
+    },
+    {
+      "slot": "estrutura-parquinho",
+      "descricao": "Parquinho vazio",
+      "arquivo": "teste-parquinho.jpg",
+      "tem_rosto_de_aluno": false,
+      "autorizacao": null,
+      "alt": "Foto ilustrativa: parquinho com escorregadores e casinha colorida",
+      "status": "ficticio",
+      "legenda": "Parquinho",
+      "credito": "https://unsplash.com/photos/wiVwLm1YSLY",
+      "licenca": "Unsplash License"
+    },
+    {
+      "slot": "estrutura-rampa",
+      "descricao": "Rampa com corrimão",
+      "arquivo": "teste-rampa.jpg",
+      "tem_rosto_de_aluno": false,
+      "autorizacao": null,
+      "alt": "Foto ilustrativa: rampa de acesso com corrimão",
+      "status": "ficticio",
+      "legenda": "Rampa com corrimão",
+      "credito": "https://unsplash.com/photos/7lHehHf8024",
+      "licenca": "Unsplash License"
+    },
+    {
+      "slot": "estrutura-fachada",
+      "descricao": "Fachada com o nome da escola, manhã, sem carros nem pessoas",
+      "arquivo": null,
+      "tem_rosto_de_aluno": false,
+      "autorizacao": null,
+      "alt": "Fachada da Escola Fonte do Saber",
+      "legenda": "Entrada da escola",
+      "status": "preencher"
+    },
+    {
+      "slot": "evento-exemplo",
+      "descricao": "Detalhe de fantasia/instrumento da fanfarra, criança de costas",
+      "arquivo": null,
+      "tem_rosto_de_aluno": false,
+      "autorizacao": {
+        "termo_assinado": false,
+        "valido_ate": null,
+        "canais": [
+          "site"
+        ]
+      },
+      "alt": "Instrumentos da fanfarra da escola guardados após o desfile",
+      "status": "preencher",
+      "legenda": "Fanfarra"
+    }
+  ],
+  "seo": {
+    "title": "Escola Fonte do Saber | Escola particular em Jupi-PE",
+    "description": "Educação Infantil e Ensino Fundamental em Jupi-PE. Matrículas 2027 abertas: agende uma visita pelo WhatsApp e conheça a Escola Fonte do Saber.",
+    "h1": "Aprendizagem com diversão, alegria e amor, aqui em Jupi",
+    "url_canonica": "[PREENCHER: domínio — no teste, use a URL que a Vercel gerar]",
+    "og_image": "[PREENCHER: 1200x630, brasão + fachada sem alunos]"
+  },
+  "privacidade": {
+    "politica_url": "/privacidade",
+    "encarregado_nome": {
+      "valor": "Coordenação da escola",
+      "status": "ficticio",
+      "obrigatorio": true
+    },
+    "encarregado_contato": {
+      "valor": "privacidade@fontedosaber.example",
+      "status": "ficticio",
+      "obrigatorio": true
+    },
+    "prazo_guarda": {
+      "valor": null,
+      "status": "preencher",
+      "obrigatorio": true,
+      "nota": "Por quanto tempo a escola guarda a conversa do WhatsApp com os dados do formulário (nome, WhatsApp, etapa) e como apaga a pedido."
+    },
+    "analytics": {
+      "valor": "nenhum",
+      "opcoes": [
+        "nenhum",
+        "cookieless (Vercel/Cloudflare Web Analytics)",
+        "Meta Pixel/GA4 (exige banner de cookies com opt-in)"
+      ],
+      "status": "confirmado"
+    },
+    "formulario_destino": {
+      "valor": "whatsapp",
+      "nota": "O formulário só monta uma mensagem e abre o WhatsApp; nada é gravado em servidor.",
+      "status": "confirmado"
+    }
+  }
+}

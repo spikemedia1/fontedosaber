@@ -1,0 +1,32 @@
+---
+// Card de etapa: ícone → nome → faixa etária → lista → "Perguntar sobre vagas" (WhatsApp com a etapa).
+import Pending from './Pending.astro';
+import { get } from '../lib/content';
+import { waLink } from '../lib/whatsapp';
+
+type F = { valor?: unknown; status?: string; obrigatorio?: boolean } | undefined;
+interface Props {
+  nome: F;
+  faixa: F;
+  icon: string;
+  accent?: boolean;
+  itens: { label: string; f: F; opcional?: boolean }[];
+  descricao?: F;
+  i?: number;
+}
+const { nome, faixa, icon, accent = false, itens, descricao, i = 0 } = Astro.props;
+const nomeTxt = get<string>(nome as any);
+const desc = get<string>(descricao as any);
+// Opcional não publicável some (também em staging não polui o card)
+const linhas = itens.filter((i) => !i.opcional || get(i.f as any) !== undefined);
+---
+<article class:list={['stage-card', { 'stage-card--accent': accent }]} style={`--i: ${i}`}>
+  <span class="stage-card__icon"><svg class="icon" aria-hidden="true"><use href={`#${icon}`} /></svg></span>
+  <h3><Pending f={nome} label="nome da etapa" /></h3>
+  <span class="badge stage-card__age"><Pending f={faixa} label="faixa etária" /></span>
+  {desc && <p class="stage-card__text">{desc}</p>}
+  <ul class="stage-card__list">
+    {linhas.map((i) => <li><span><strong>{i.label}:</strong> <Pending f={i.f} label={i.label.toLowerCase()} /></span></li>)}
+  </ul>
+  <a class="btn btn--link" href={waLink(nomeTxt)} data-wa>Perguntar sobre vagas<svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg></a>
+</article>

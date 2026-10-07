@@ -1,0 +1,5 @@
+---
+// Botão flutuante de WhatsApp (só ≥1024px). Some no rodapé e sobre o formulário (site.js).
+import { waLink } from '../lib/whatsapp';
+---
+<a class="wa-fab is-hidden" href={waLink()} data-wa aria-label="Conversar com a escola no WhatsApp" tabindex="-1"><svg class="icon" aria-hidden="true"><use href="#i-wa" /></svg></a>

@@ -1,0 +1,151 @@
+/* ==========================================================================
+   Escola Fonte do Saber — complementos da página (sobre components.css)
+   Mesmas regras: só var(--*); exceções 0, 100%, fr, auto, currentColor.
+   ========================================================================== */
+
+/* @component wave (fundo = cor da seção de cima) */
+.wave--from-bg { background: var(--color-bg); }
+.wave--from-alt { background: var(--color-bg-alt); }
+.wave--from-brand { background: var(--color-surface-brand); }
+.wave--from-dark { background: var(--color-surface-dark); }
+.wave--flip { transform: scaleX(-1); }
+/* @end */
+
+/* @component nav (complementos) */
+.nav__brand { min-width: 0; }
+.nav__name { min-width: 0; }
+.nav__close { justify-self: end; }
+@media (max-width: 29.99em) { .nav__name small { display: none; } }
+/* @end */
+
+/* @component hero (fallback de produção sem foto: superfície da marca + brasão) */
+.hero__fallback { display: grid; place-items: center; }
+.hero__fallback-logo { width: auto; height: 50%; }
+.hero__media { isolation: isolate; }
+/* @end */
+
+/* @component stage-card (complementos) */
+.stage-card__text { font-size: var(--text-small); }
+.stage-card .btn--link { justify-self: start; }
+/* @end */
+
+/* @component feature (link do Instagram dentro do card) */
+.feature__link { justify-self: start; display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--tap-min); font-weight: var(--weight-bold); }
+.feature__link svg { width: var(--icon-md); height: var(--icon-md); }
+/* @end */
+
+/* @component cta-band (espaçamento após a grade) */
+.cta-band--after { margin-top: var(--section-gap); }
+/* @end */
+
+/* @component team-card */
+.team-card .badge--demo { margin-top: var(--space-1); }
+.section__link { margin-top: var(--section-gap); display: flex; justify-content: center; max-width: none; }
+/* @end */
+
+/* @component testimonial */
+.testimonials { display: grid; gap: var(--grid-gap); }
+.testimonial__author { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+/* @end */
+
+/* @component enroll (complementos) */
+.enroll__main { display: grid; gap: var(--grid-gap); }
+.enroll__docs { margin: 0; padding-left: var(--space-5); display: grid; gap: var(--space-1); font-size: var(--text-small); }
+.enroll__dl { margin: 0; display: grid; gap: var(--space-1); }
+.enroll__dl dt { font-weight: var(--weight-bold); color: var(--color-text); }
+.enroll__dl dd { margin: 0 0 var(--space-3); }
+.enroll__card .btn { justify-self: start; }
+.price-table__note { display: block; font-size: var(--text-caption); color: var(--color-text-muted); font-weight: var(--weight-semibold); }
+@media (min-width: 64em) { .enroll__aside { position: sticky; top: calc(var(--header-h-lg) + var(--space-4)); } }
+/* @end */
+
+/* @component form (área de toque do checkbox ≥ 48px) */
+.check { min-height: var(--tap-min); align-items: center; }
+.form h3 { color: var(--color-text); }
+/* @end */
+
+/* @component location / map */
+.location__row p { max-width: none; }
+.map-facade__frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.map-facade__note { font-size: var(--text-caption); color: var(--color-text-muted); }
+/* @end */
+
+/* @component footer (complementos) */
+.footer__name { font-family: var(--font-display); font-weight: var(--weight-extrabold); font-size: var(--text-h4); color: var(--color-text-on-dark); }
+.footer__list li { display: flex; align-items: center; gap: var(--space-2); }
+.footer__list li:not(:has(a)) { min-height: var(--tap-min); }
+.footer__list svg { width: var(--icon-md); height: var(--icon-md); flex: none; }
+.footer__legal .container { display: grid; gap: var(--space-4); }
+.footer__copy { margin: 0; }
+/* @end */
+
+/* @component sticky-cta (barra fixa só depois do JS; sem JS ela não existe na tela) */
+.sticky-cta .btn svg { width: var(--icon-md); height: var(--icon-md); }
+/* @end */
+
+/* @component prose (página de privacidade) */
+.prose { display: grid; gap: var(--space-4); }
+.prose h2 { font-size: var(--text-h3); margin-top: var(--space-6); }
+.prose ul { margin: 0; padding-left: var(--space-5); display: grid; gap: var(--space-2); max-width: var(--measure-prose); }
+.prose__updated { font-size: var(--text-small); color: var(--color-text-muted); }
+/* @end */
+
+/* @component ajustes de layout */
+/* Slot de foto do hero: texto longe da borda do blob */
+.hero__img.photo-pending { padding: var(--space-12) var(--space-10); }
+/* Celular: botões do hero empilhados em largura total */
+@media (max-width: 47.99em) { .hero .btn-group { display: grid; width: 100%; } .hero .btn-group .btn--lg { padding-inline: var(--space-5); } }
+/* Diferenciais: 3 colunas no desktop (6 cards = 2 linhas cheias) */
+@media (min-width: 64em) { .grid--3 { grid-template-columns: repeat(3, 1fr); } }
+/* @end */
+
+/* @component gallery (itens não estouram a coluna com texto longo do slot pendente) */
+.gallery__item { min-width: 0; }
+/* @end */
+
+/* @component photo-demo (selo "Foto ilustrativa" sobre foto de teste — só dev/staging) */
+.hero__media picture, .gallery__item picture { display: block; }
+.gallery__item { position: relative; }
+.photo-demo { position: absolute; top: var(--space-3); left: var(--space-3); z-index: var(--z-raised); }
+/* No hero o canto é curvo (máscara blob): selo centralizado no topo, sempre sobre a foto */
+.hero__media .photo-demo { top: var(--space-4); left: 50%; transform: translateX(-50%); }
+/* @end */
+
+/* @component gallery (≥1024: a 1ª foto preenche as 2 linhas) */
+@media (min-width: 64em) {
+  .gallery--feature .gallery__item:first-child { grid-template-rows: minmax(0, 1fr) auto; }
+  .gallery--feature .gallery__item:first-child picture { position: relative; height: 100%; }
+  .gallery--feature .gallery__item:first-child picture .gallery__img { position: absolute; inset: 0; height: 100%; }
+  .gallery--feature .gallery__item:first-child .photo-pending { height: 100%; aspect-ratio: auto; }
+}
+/* @end */
+
+/* @component price-table (valores sem quebra; celular: linhas empilhadas) */
+.money { white-space: nowrap; }
+@media (max-width: 29.99em) {
+  .price-table, .price-table tbody, .price-table tr, .price-table th, .price-table td { display: block; width: 100%; }
+  .price-table caption { display: block; }
+  /* cabeçalho só para leitor de tela (padrão .visually-hidden) */
+  .price-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .price-table tr { border-top: var(--border-1) solid var(--color-border-subtle); padding-block: var(--space-2); }
+  .price-table th, .price-table td { border-top: 0; padding-block: var(--space-1); }
+  .price-table td[data-label]::before { content: attr(data-label) ": "; font-weight: var(--weight-bold); color: var(--color-text-muted); }
+}
+/* @end */
+
+/* @component steps (≥1024: lista vertical, número à esquerda e texto à direita) */
+@media (min-width: 64em) {
+  .steps { grid-template-columns: 1fr; gap: var(--space-3); }
+  .steps__item { grid-template-columns: auto 1fr; column-gap: var(--space-5); row-gap: var(--space-1); align-items: start; }
+  .steps__item::before { grid-row: 1 / span 2; }
+  .steps__item > * { grid-column: 2; }
+}
+/* @end */
+
+/* @component map-facade (antes do clique: caixa compacta; depois: altura do mapa) */
+.map-facade:not(.is-loaded) { min-height: auto; padding: var(--space-6); align-self: start; }
+/* @end */
+
+/* @component topbar (alvo do link ≥ 24px de altura) */
+.topbar a { display: inline-block; padding-block: var(--space-1); }
+/* @end */

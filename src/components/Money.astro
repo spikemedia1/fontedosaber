@@ -1,0 +1,7 @@
+---
+// Texto com valores em reais: cada "R$ 0,00" vira "R$&nbsp;0,00" dentro de <span class="money"> (sem quebra de linha).
+interface Props { text: string }
+const { text } = Astro.props;
+const parts = text.split(/(R\$\s?[\d.]+(?:,\d{2})?)/g).filter(Boolean);
+---
+{parts.map((p) => (/^R\$/.test(p) ? <span class="money">{p.replace(/^R\$\s?/, 'R$ ')}</span> : p))}

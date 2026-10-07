@@ -1,0 +1,34 @@
+---
+// Seção 4 — Um dia na escola (6 passos; vertical no celular, horizontal ≥1024).
+import SectionHeader from './SectionHeader.astro';
+import Pending from './Pending.astro';
+import { content, ok, STAGING, pendingLabel } from '../lib/content';
+
+const { turnos, passos } = content.rotina;
+const visiveis = passos.filter((p) => ok(p.status) || STAGING);
+---
+{visiveis.length > 0 && (
+  <section class="section section--brand" id="rotina" aria-labelledby="rotina-title">
+    <div class="container">
+      <SectionHeader id="rotina-title" eyebrow="Rotina" hand="cada dia, uma descoberta">
+        Um dia na <span class="hl">escola</span>
+        <Fragment slot="lead">Uma manhã típica na escola. Turnos: <Pending f={turnos} label="turnos e horários" />.</Fragment>
+      </SectionHeader>
+      <ol class="timeline">
+        {visiveis.map((p, i) => ok(p.status) ? (
+          <li class="timeline__item" style={`--i: ${i}`}>
+            <span class="timeline__time">{p.horario}</span>
+            <h3 class="timeline__title">{p.titulo}</h3>
+            <p class="timeline__text">{p.texto}</p>
+          </li>
+        ) : (
+          <li class="timeline__item" style={`--i: ${i}`}>
+            <span class="timeline__time"><span class="pending">[hora]</span></span>
+            <h3 class="timeline__title">{p.titulo}</h3>
+            <p class="timeline__text"><span class="pending">{pendingLabel(p.status, 'como funciona')}</span></p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+)}

@@ -1,0 +1,14 @@
+---
+// Renderiza um campo de content.json conforme o status.
+// Publicável → valor (formatado). Staging → <span class="pending">[PREENCHER/CONFIRMAR: rótulo]</span>. Produção → nada.
+import { ok, STAGING, pendingLabel } from '../lib/content';
+
+interface Props {
+  f?: { valor?: unknown; status?: string } | null;
+  label: string;
+  format?: (v: any) => string;
+}
+const { f, label, format } = Astro.props;
+const show = Boolean(f && ok(f.status) && f.valor != null && f.valor !== '');
+---
+{show ? (format ? format(f!.valor) : String(f!.valor)) : STAGING && <span class="pending">{pendingLabel(f?.status, label)}</span>}

@@ -1,0 +1,16 @@
+---
+// Banner de cookies: só existe se content.json → privacidade.analytics usar Meta Pixel/GA4.
+// Hoje: "nenhum" → não renderiza nada (e nenhum script de rastreio é carregado).
+// Se um dia for ativado: scripts de rastreio APENAS depois de "Aceitar"; Recusar e Aceitar com o mesmo peso.
+import { content } from '../lib/content';
+const precisa = /pixel|ga4/i.test(String(content.privacidade.analytics.valor));
+---
+{precisa && (
+  <div class="cookie" role="dialog" aria-labelledby="cookie-txt" hidden>
+    <p id="cookie-txt">Usamos cookies de medição para entender as visitas ao site. Você escolhe. <a href={content.privacidade.politica_url}>Saiba mais</a>.</p>
+    <div class="cookie__actions">
+      <button class="btn btn--sm btn--secondary" type="button" data-cookie="recusar">Recusar</button>
+      <button class="btn btn--sm btn--secondary" type="button" data-cookie="aceitar">Aceitar</button>
+    </div>
+  </div>
+)}

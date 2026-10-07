@@ -1,0 +1,28 @@
+---
+// Seção 8 — Depoimentos. Só reais e autorizados; lista vazia → seção não existe.
+// MODO TESTE: os fictícios aparecem em staging com o selo "Exemplo fictício".
+import SectionHeader from './SectionHeader.astro';
+import { depoimentosVisiveis } from '../lib/sections';
+
+const itens = depoimentosVisiveis();
+---
+{itens.length > 0 && (
+  <section class="section section--alt" id="depoimentos" aria-labelledby="dep-title">
+    <div class="container container--narrow">
+      <SectionHeader id="dep-title" eyebrow="Depoimentos">
+        O que dizem as <span class="hl">famílias</span>
+      </SectionHeader>
+      <div class="testimonials">
+        {itens.map((d, i) => (
+          <figure class="testimonial" style={`--i: ${i}`}>
+            <blockquote class="testimonial__quote">“{d.texto}”</blockquote>
+            <figcaption class="testimonial__author">
+              {d.autor}
+              {d.status === 'ficticio' && <span class="badge badge--demo" data-demo>Exemplo fictício</span>}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

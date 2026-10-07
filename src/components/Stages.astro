@@ -1,0 +1,42 @@
+---
+// Seção 2 — Etapas
+import SectionHeader from './SectionHeader.astro';
+import StageCard from './StageCard.astro';
+import { content } from '../lib/content';
+
+const [inf, fun] = content.etapas;
+---
+<section class="section section--alt" id="etapas" aria-labelledby="etapas-title">
+  <div class="container">
+    <SectionHeader id="etapas-title" eyebrow="Etapas">
+      Da Educação Infantil ao <span class="hl">Fundamental</span>
+      <Fragment slot="lead">Veja a idade de cada turma e escolha a etapa do seu filho.</Fragment>
+    </SectionHeader>
+    <div class="grid">
+      <StageCard
+        nome={inf.nome}
+        faixa={inf.faixa_etaria}
+        icon="i-smile"
+        descricao={inf.descricao}
+        itens={[
+          { label: 'Turmas', f: inf.turmas },
+          { label: 'Turnos', f: inf.turnos },
+          { label: 'Creche/berçário', f: inf.atende_creche_bercario },
+        ]}
+      />
+      <StageCard
+        nome={fun.nome}
+        faixa={fun.faixa_etaria}
+        icon="i-book"
+        accent
+        i={1}
+        descricao={fun.descricao}
+        itens={[
+          { label: 'Anos', f: fun.anos },
+          { label: 'Turnos', f: fun.turnos },
+          { label: 'Material didático', f: fun.material_didatico, opcional: true },
+        ]}
+      />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prévia do Design System — Escola Fonte do Saber (staging)</title>
+<meta name="robots" content="noindex, nofollow">
+<!-- Prévia: fontes via Google Fonts. Em produção, auto-hospedar (Fontsource) — ver DESIGN-SYSTEM.md §5. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Nunito+Sans:opsz,wght@6..12,400..800&family=Nunito:wght@700..900&display=swap">
+<link rel="stylesheet" href="../src/styles/tokens.css">
+<link rel="stylesheet" href="../src/styles/components.css">
+<style>
+  /* Só da prévia: rótulo de staging */
+  .staging-note { display: block; margin-bottom: var(--space-4); padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); background: var(--color-pending-bg); color: var(--color-pending); font-size: var(--text-caption); font-weight: var(--weight-bold); border: var(--border-1) dashed var(--color-pending); }
+  .guide-row { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center; margin-bottom: var(--space-6); }
+  .cookie--static { position: static; margin: 0; }
+</style>
+</head>
+<body class="has-sticky-cta">
+
+<!-- Sprite de ícones (Lucide, ISC). Em produção: importar só os usados. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-menu" viewBox="0 0 24 24"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-snow" viewBox="0 0 24 24"><line x1="2" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="22"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-access" viewBox="0 0 24 24"><circle cx="16" cy="4" r="1"/><path d="m18 19 1-7-6 1"/><path d="m5 8 3-3 5.5 3-2.36 3.5"/><path d="M4.24 14.5a5 5 0 0 0 6.88 6"/><path d="M13.76 17.5a5 5 0 0 0-6.88-6"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+  <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></symbol>
+  <symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  <symbol id="i-camoff" viewBox="0 0 24 24"><line x1="2" x2="22" y1="2" y2="22"/><path d="M7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16"/><path d="M9.5 4h5L17 7h3a2 2 0 0 1 2 2v7.5"/><path d="M14.121 15.121A3 3 0 1 1 9.88 10.88"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+</svg>
+
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+<!-- @snippet topbar -->
+<div class="topbar" role="region" aria-label="Aviso de matrículas">
+  <div class="container topbar__inner">
+    <span class="topbar__badge">2027</span>
+    <span>Matrículas abertas · <a href="https://wa.me/5500000000000?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20visita." data-wa>agende uma visita</a></span>
+  </div>
+</div>
+<div class="stripe" aria-hidden="true"></div>
+<!-- @end -->
+
+<!-- @snippet nav -->
+<header class="nav">
+  <div class="container nav__inner">
+    <a class="nav__brand" href="#inicio" aria-label="Escola Fonte do Saber — início">
+      <!-- Substituir pelo brasão oficial (SVG). Placeholder genérico, NÃO é o logo. -->
+      <svg class="nav__logo" viewBox="0 0 48 56" role="img" aria-label="Brasão (placeholder)"><path d="M24 2 44 9v18c0 13-9 22-20 27C13 49 4 40 4 27V9Z" fill="var(--color-surface-brand)" stroke="var(--color-primary)" stroke-width="3"/><text x="24" y="34" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="900" font-size="16" fill="var(--color-text)">FS</text></svg>
+      <span class="nav__name">Escola Fonte do Saber<small>Educação Infantil e Fundamental · Jupi-PE</small></span>
+    </a>
+    <nav aria-label="Principal">
+      <ul class="nav__links">
+        <li><a href="#etapas">Etapas</a></li>
+        <li><a href="#diferenciais">Diferenciais</a></li>
+        <li><a href="#rotina">Rotina</a></li>
+        <li><a href="#estrutura">Estrutura</a></li>
+        <li><a href="#matriculas">Matrículas</a></li>
+        <li><a href="#duvidas">Dúvidas</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn--sm nav__cta" href="https://wa.me/5500000000000" data-wa><svg class="icon btn__icon" aria-hidden="true"><use href="#i-chat"/></svg>Agendar visita</a>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu-mobile" aria-label="Abrir menu"><svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg></button>
+  </div>
+  <div class="nav__scrim" data-open="false"></div>
+  <div class="nav__panel" id="menu-mobile" data-open="false" aria-label="Menu">
+    <button class="nav__toggle" type="button" data-close aria-label="Fechar menu" style="justify-self:end"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button>
+    <a href="#etapas">Etapas</a><a href="#diferenciais">Diferenciais</a><a href="#rotina">Um dia na escola</a><a href="#estrutura">Estrutura</a><a href="#matriculas">Matrículas</a><a href="#duvidas">Dúvidas</a><a href="#onde">Onde estamos</a>
+    <a class="btn btn--block" href="https://wa.me/5500000000000" data-wa>Agendar visita pelo WhatsApp</a>
+  </div>
+</header>
+<!-- @end -->
+
+<main id="conteudo">
+
+<!-- 1. HERO -->
+<!-- @snippet hero -->
+<section class="hero" id="inicio" aria-labelledby="hero-title">
+  <div class="container hero__inner">
+    <div class="hero__content">
+      <span class="eyebrow">Escola particular em Jupi-PE</span>
+      <h1 class="hero__title" id="hero-title">Aprendizagem com diversão, <span class="hl">alegria e amor</span>, aqui em Jupi</h1>
+      <p class="hero__lead">Educação Infantil e Ensino Fundamental <span class="pending">[CONFIRMAR: 1º ao 4º/5º ano]</span> no Loteamento Silvestre. Venha conhecer as salas, conversar com a coordenação e tirar suas dúvidas pessoalmente.</p>
+      <div class="btn-group">
+        <a class="btn btn--lg" href="https://wa.me/5500000000000" data-wa><svg class="icon btn__icon" aria-hidden="true"><use href="#i-chat"/></svg>Agendar visita pelo WhatsApp</a>
+        <a class="btn btn--secondary" href="#matriculas">Ver valores e matrícula</a>
+      </div>
+      <p class="hero__note">Secretaria: <span class="pending">[PREENCHER: dias e horários]</span> · Sem compromisso.</p>
+    </div>
+    <div class="hero__media">
+      <!-- Foto padrão: sala climatizada SEM alunos (slot hero em content.json). -->
+      <div class="hero__img photo-pending" role="img" aria-label="Foto da sala de aula a produzir"><svg class="icon" aria-hidden="true"><use href="#i-camoff"/></svg>Foto a produzir: sala climatizada, sem alunos, luz da manhã</div>
+      <span class="hero__badge"><svg class="icon" aria-hidden="true"><use href="#i-snow"/></svg>Todas as salas climatizadas <span class="pending">[CONFIRMAR]</span></span>
+    </div>
+  </div>
+</section>
+<!-- @end -->
+<!-- @snippet wave -->
+<svg class="wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path fill="currentColor" d="M0 48C180 16 360 16 540 40s360 40 540 16 270-40 360-24V80H0Z"/></svg>
+<!-- @end -->
+
+<!-- 2. ETAPAS -->
+<section class="section section--alt" id="etapas" aria-labelledby="etapas-title">
+  <div class="container">
+    <header class="section__header">
+      <span class="eyebrow">Etapas</span>
+      <h2 id="etapas-title">Da Educação Infantil ao <span class="hl">Fundamental</span></h2>
+      <p class="section__lead">Veja a idade de cada turma e escolha a etapa do seu filho.</p>
+    </header>
+    <div class="grid">
+<!-- @snippet stage-card -->
+      <article class="stage-card">
+        <span class="stage-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-smile"/></svg></span>
+        <h3>Educação Infantil</h3>
+        <span class="badge stage-card__age"><span class="pending">[CONFIRMAR: idades]</span></span>
+        <ul class="stage-card__list">
+          <li>Turmas: <span class="pending">[CONFIRMAR: Infantil I, II e III]</span></li>
+          <li>Turnos: <span class="pending">[PREENCHER]</span></li>
+          <li>Creche/berçário: <span class="pending">[CONFIRMAR]</span></li>
+        </ul>
+        <a class="btn btn--link" href="https://wa.me/5500000000000" data-wa data-etapa="Educação Infantil">Perguntar sobre vagas<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </article>
+<!-- @end -->
+      <article class="stage-card stage-card--accent">
+        <span class="stage-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span>
+        <h3>Ensino Fundamental — Anos Iniciais</h3>
+        <span class="badge badge--yellow stage-card__age">1º ao <span class="pending">[CONFIRMAR: 4º/5º]</span> ano</span>
+        <ul class="stage-card__list">
+          <li>Faixa etária: <span class="pending">[CONFIRMAR]</span></li>
+          <li>Turnos: <span class="pending">[PREENCHER]</span></li>
+          <li>Material didático: <span class="pending">[PREENCHER]</span></li>
+        </ul>
+        <a class="btn btn--link" href="https://wa.me/5500000000000" data-wa data-etapa="Ensino Fundamental">Perguntar sobre vagas<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </article>
+    </div>
+  </div>
+</section>
+<svg class="wave wave--bg" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true" style="background:var(--color-bg-alt)"><path fill="currentColor" d="M0 48C180 16 360 16 540 40s360 40 540 16 270-40 360-24V80H0Z"/></svg>
+
+<!-- 3. DIFERENCIAIS -->
+<section class="section" id="diferenciais" aria-labelledby="dif-title">
+  <div class="container">
+    <header class="section__header">
+      <span class="eyebrow">Por que a Fonte do Saber</span>
+      <h2 id="dif-title">O que você encontra <span class="hl">aqui</span></h2>
+      <p class="hand">venha ver de perto!</p>
+    </header>
+    <div class="grid">
+<!-- @snippet feature -->
+      <article class="feature">
+        <span class="feature__icon"><svg class="icon" aria-hidden="true"><use href="#i-snow"/></svg></span>
+        <h3>Salas climatizadas</h3>
+        <p class="feature__text"><span class="pending">[CONFIRMAR: 11]</span> salas com ar-condicionado, para estudar com conforto no calor.</p>
+      </article>
+<!-- @end -->
+      <article class="feature">
+        <span class="feature__icon"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg></span>
+        <h3>Turmas pequenas</h3>
+        <p class="feature__text">No máximo <span class="pending">[PREENCHER]</span> crianças por turma. A professora acompanha cada uma de perto.</p>
+      </article>
+      <article class="feature">
+        <span class="feature__icon"><svg class="icon" aria-hidden="true"><use href="#i-access"/></svg></span>
+        <h3>Inclusão de verdade</h3>
+        <p class="feature__text">Rampas, corrimão e sinalização visual. Crianças com deficiência são recebidas sem cobrança adicional. <span class="pending">[CONFIRMAR: como funciona o apoio]</span></p>
+      </article>
+      <article class="feature">
+        <span class="feature__icon"><svg class="icon" aria-hidden="true"><use href="#i-sun"/></svg></span>
+        <h3>Pátio coberto e parquinho</h3>
+        <p class="feature__text">Espaço para brincar na sombra na hora do recreio. <span class="pending">[CONFIRMAR]</span></p>
+      </article>
+      <article class="feature">
+        <span class="feature__icon"><svg class="icon" aria-hidden="true"><use href="#i-sprout"/></svg></span>
+        <h3>Aprender fora da sala</h3>
+        <p class="feature__text">Aulas de campo, como o projeto Detetives da Saúde, levam a turma para observar, perguntar e registrar o que descobriu.</p>
+      </article>
+      <article class="feature">
+        <span class="feature__icon"><svg class="icon" aria-hidden="true"><use href="#i-insta"/></svg></span>
+        <h3>A rotina no Instagram</h3>
+        <p class="feature__text">Quase todo dia mostramos o que as turmas estão fazendo. Siga <a href="https://www.instagram.com/esc_fontedosaber/" rel="noopener">@esc_fontedosaber</a>.</p>
+      </article>
+    </div>
+<!-- @snippet cta-band -->
+    <div class="cta-band" style="margin-top:var(--section-gap)">
+      <div class="stack">
+        <h3 class="cta-band__title">Quer ver tudo isso de perto?</h3>
+        <p>A visita é rápida e sem compromisso. Você conversa direto com a secretaria pelo WhatsApp.</p>
+      </div>
+      <a class="btn" href="https://wa.me/5500000000000" data-wa><svg class="icon btn__icon" aria-hidden="true"><use href="#i-calendar"/></svg>Agendar visita</a>
+    </div>
+<!-- @end -->
+  </div>
+</section>
+<svg class="wave wave--brand" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path fill="currentColor" d="M0 48C180 16 360 16 540 40s360 40 540 16 270-40 360-24V80H0Z"/></svg>
+
+<!-- 4. UM DIA NA ESCOLA -->
+<section class="section section--brand" id="rotina" aria-labelledby="rotina-title">
+  <div class="container">
+    <header class="section__header">
+      <span class="eyebrow">Rotina</span>
+      <h2 id="rotina-title">Um dia na <span class="hl">escola</span></h2>
+      <p class="section__lead">Turnos: <span class="pending">[PREENCHER: manhã / tarde / integral e horários]</span></p>
+    </header>
+<!-- @snippet timeline -->
+    <ol class="timeline">
+      <li class="timeline__item"><span class="timeline__time"><span class="pending">[hora]</span></span><h3 class="timeline__title">Chegada e acolhida</h3><p class="timeline__text"><span class="pending">[PREENCHER: quem recebe a criança]</span></p></li>
+      <li class="timeline__item"><span class="timeline__time"><span class="pending">[hora]</span></span><h3 class="timeline__title">Roda de conversa</h3><p class="timeline__text"><span class="pending">[CONFIRMAR]</span></p></li>
+      <li class="timeline__item"><span class="timeline__time"><span class="pending">[hora]</span></span><h3 class="timeline__title">Atividades da turma</h3><p class="timeline__text"><span class="pending">[PREENCHER]</span></p></li>
+      <li class="timeline__item"><span class="timeline__time"><span class="pending">[hora]</span></span><h3 class="timeline__title">Lanche</h3><p class="timeline__text"><span class="pending">[CONFIRMAR: oferecido ou levado]</span></p></li>
+      <li class="timeline__item"><span class="timeline__time"><span class="pending">[hora]</span></span><h3 class="timeline__title">Recreio no pátio</h3><p class="timeline__text"><span class="pending">[CONFIRMAR]</span></p></li>
+      <li class="timeline__item"><span class="timeline__time"><span class="pending">[hora]</span></span><h3 class="timeline__title">Saída</h3><p class="timeline__text"><span class="pending">[PREENCHER: como a criança é entregue]</span></p></li>
+    </ol>
+<!-- @end -->
+  </div>
+</section>
+<svg class="wave wave--bg" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true" style="background:var(--color-surface-brand)"><path fill="currentColor" d="M0 48C180 16 360 16 540 40s360 40 540 16 270-40 360-24V80H0Z"/></svg>
+
+<!-- 5. EQUIPE (oculta em produção até haver 3 perfis autorizados) -->
+<section class="section" id="equipe" aria-labelledby="equipe-title">
+  <div class="container">
+    <span class="staging-note">STAGING · Seção oculta em produção até existirem 3 perfis com nome, formação e termo de imagem assinado.</span>
+    <header class="section__header">
+      <span class="eyebrow">Equipe</span>
+      <h2 id="equipe-title">Quem cuida do seu filho</h2>
+    </header>
+    <div class="grid grid--sm">
+<!-- @snippet team-card -->
+      <article class="team-card">
+        <div class="photo-pending" role="img" aria-label="Foto pendente de autorização"><svg class="icon" aria-hidden="true"><use href="#i-camoff"/></svg>Foto pendente de autorização</div>
+        <h3 class="team-card__name"><span class="pending">[Tia Nome]</span></h3>
+        <p class="team-card__role"><span class="pending">[Função]</span> · <span class="pending">[Formação]</span></p>
+      </article>
+<!-- @end -->
+    </div>
+  </div>
+</section>
+
+<!-- 6. ESTRUTURA -->
+<section class="section section--alt" id="estrutura" aria-labelledby="estrutura-title">
+  <div class="container">
+    <header class="section__header">
+      <span class="eyebrow">Estrutura</span>
+      <h2 id="estrutura-title">Conheça os <span class="hl">espaços</span></h2>
+      <p class="section__lead">Fotos reais da escola, feitas sem alunos.</p>
+    </header>
+<!-- @snippet gallery -->
+    <div class="gallery gallery--feature">
+      <figure class="gallery__item"><div class="gallery__img photo-pending" role="img" aria-label="Foto a produzir"><svg class="icon" aria-hidden="true"><use href="#i-camoff"/></svg>Sala climatizada</div><figcaption class="gallery__caption">Sala de aula <span class="pending">[CONFIRMAR climatizada]</span></figcaption></figure>
+      <figure class="gallery__item"><div class="gallery__img photo-pending" role="img" aria-label="Foto a produzir"><svg class="icon" aria-hidden="true"><use href="#i-camoff"/></svg>Pátio coberto</div><figcaption class="gallery__caption">Pátio coberto</figcaption></figure>
+      <figure class="gallery__item"><div class="gallery__img photo-pending" role="img" aria-label="Foto a produzir"><svg class="icon" aria-hidden="true"><use href="#i-camoff"/></svg>Parquinho</div><figcaption class="gallery__caption">Parquinho</figcaption></figure>
+      <figure class="gallery__item"><div class="gallery__img photo-pending" role="img" aria-label="Foto a produzir"><svg class="icon" aria-hidden="true"><use href="#i-camoff"/></svg>Rampa com corrimão</div><figcaption class="gallery__caption">Acessibilidade</figcaption></figure>
+      <figure class="gallery__item"><div class="gallery__img photo-pending" role="img" aria-label="Foto a produzir"><svg class="icon" aria-hidden="true"><use href="#i-camoff"/></svg>Fachada</div><figcaption class="gallery__caption">Entrada da escola</figcaption></figure>
+    </div>
+<!-- @end -->
+  </div>
+</section>
+
+<!-- 7. EVENTOS -->
+<section class="section" id="eventos" aria-labelledby="eventos-title">
+  <div class="container">
+    <header class="section__header">
+      <span class="eyebrow">Projetos e datas</span>
+      <h2 id="eventos-title">Um ano cheio de <span class="hl">projetos</span></h2>
+    </header>
+    <div class="grid">
+<!-- @snippet event-card -->
+      <article class="event-card"><span class="event-card__month">Agosto</span><div class="stack"><h3 class="event-card__title">Folclore</h3><p class="event-card__text"><span class="pending">[PREENCHER: o que as turmas fazem]</span></p></div></article>
+<!-- @end -->
+      <article class="event-card event-card--sky"><span class="event-card__month">Setembro</span><div class="stack"><h3 class="event-card__title">7 de Setembro: desfile e fanfarra</h3><p class="event-card__text"><span class="pending">[PREENCHER]</span></p></div></article>
+      <article class="event-card event-card--pink"><span class="event-card__month">Outubro</span><div class="stack"><h3 class="event-card__title">Semana da Criança</h3><p class="event-card__text"><span class="pending">[PREENCHER]</span></p></div></article>
+      <article class="event-card event-card--yellow"><span class="event-card__month"><span class="pending">[mês]</span></span><div class="stack"><h3 class="event-card__title">Fonte Folia</h3><p class="event-card__text"><span class="pending">[PREENCHER]</span></p></div></article>
+      <article class="event-card"><span class="event-card__month">Ano todo</span><div class="stack"><h3 class="event-card__title">Aulas de campo: Detetives da Saúde</h3><p class="event-card__text"><span class="pending">[PREENCHER]</span></p></div></article>
+      <article class="event-card event-card--sky"><span class="event-card__month">Ano todo</span><div class="stack"><h3 class="event-card__title">Ações de inclusão</h3><p class="event-card__text"><span class="pending">[PREENCHER]</span></p></div></article>
+    </div>
+    <div class="cta-band" style="margin-top:var(--section-gap)">
+      <div class="stack"><h3 class="cta-band__title">Acompanhe pelo Instagram</h3><p>As fotos dos eventos ficam no perfil oficial da escola.</p></div>
+      <a class="btn btn--secondary" href="https://www.instagram.com/esc_fontedosaber/" rel="noopener"><svg class="icon btn__icon" aria-hidden="true"><use href="#i-insta"/></svg>@esc_fontedosaber</a>
+    </div>
+  </div>
+</section>
+
+<!-- 8. DEPOIMENTOS (estado vazio — só staging) -->
+<section class="section section--alt" id="depoimentos" aria-labelledby="dep-title">
+  <div class="container container--narrow">
+    <span class="staging-note">STAGING · Em produção esta seção NÃO é renderizada enquanto content.depoimentos.itens estiver vazio.</span>
+    <h2 id="dep-title" class="visually-hidden">Depoimentos</h2>
+<!-- @snippet testimonial -->
+    <p class="testimonial-empty">Nenhum depoimento autorizado ainda. Peça aos pais um texto curto e o termo de autorização assinado. Nunca use depoimento de criança.</p>
+    <!-- Quando houver: -->
+    <!-- <figure class="testimonial"><blockquote class="testimonial__quote">“Texto real do responsável.”</blockquote><figcaption class="testimonial__author">Ana, mãe de aluno do Infantil</figcaption></figure> -->
+<!-- @end -->
+  </div>
+</section>
+<svg class="wave wave--dark" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true" style="background:var(--color-bg-alt)"><path fill="currentColor" d="M0 48C180 16 360 16 540 40s360 40 540 16 270-40 360-24V80H0Z"/></svg>
+
+<!-- 9. MATRÍCULAS -->
+<section class="section section--dark" id="matriculas" aria-labelledby="mat-title">
+  <div class="container">
+    <header class="section__header">
+      <span class="eyebrow">Matrículas 2027</span>
+      <h2 id="mat-title">Matrículas 2027 <span class="hl">abertas</span></h2>
+      <p class="section__lead">Valores, documentos e prazos antes de você decidir.</p>
+    </header>
+<!-- @snippet enroll -->
+    <div class="enroll__grid">
+      <div class="stack" style="gap:var(--grid-gap)">
+        <ol class="steps">
+          <li class="steps__item"><h3>Agende a visita</h3><p>Fale com a secretaria pelo WhatsApp e escolha um horário.</p></li>
+          <li class="steps__item"><h3>Conheça a escola</h3><p>Veja as salas, converse com a coordenação, tire dúvidas.</p></li>
+          <li class="steps__item"><h3>Leve os documentos</h3><p>A matrícula é feita na secretaria, presencialmente.</p></li>
+        </ol>
+        <table class="price-table">
+          <caption>Valores 2027 por etapa</caption>
+          <thead><tr><th scope="col">Etapa</th><th scope="col">Anuidade</th><th scope="col">Parcelas</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Educação Infantil</th><td><span class="pending">[PREENCHER]</span></td><td><span class="pending">[PREENCHER]</span></td></tr>
+            <tr><th scope="row">Fundamental — Anos Iniciais</th><td><span class="pending">[PREENCHER]</span></td><td><span class="pending">[PREENCHER]</span></td></tr>
+            <tr><th scope="row">Outros custos</th><td colspan="2"><span class="pending">[PREENCHER: matrícula, material, uniforme — ou “não há”]</span></td></tr>
+            <tr><th scope="row">Vagas por turma</th><td colspan="2"><span class="pending">[PREENCHER]</span></td></tr>
+          </tbody>
+        </table>
+        <div class="enroll__card">
+          <h3>Antes de matricular</h3>
+          <p><strong>Período:</strong> <span class="pending">[PREENCHER]</span><br><strong>Documentos:</strong> <span class="pending">[PREENCHER: lista oficial]</span></p>
+          <a class="btn btn--secondary" href="#"><svg class="icon btn__icon" aria-hidden="true"><use href="#i-file"/></svg>Ler a proposta de contrato 2027 (PDF)</a>
+        </div>
+        <p class="enroll__legal">Valores, proposta de contrato e número de vagas publicados em <span class="pending">[data]</span>, no mínimo 45 dias antes do fim do prazo de matrícula (Lei 9.870/1999, art. 2º).</p>
+      </div>
+<!-- @end -->
+<!-- @snippet form -->
+      <form class="form" id="form-visita" novalidate aria-labelledby="form-title">
+        <h3 id="form-title">Agende sua visita</h3>
+        <p class="form__privacy">Só pedimos o essencial. Nada sobre a criança além da etapa.</p>
+        <div class="field">
+          <label class="field__label" for="f-nome">Seu nome <span class="req" aria-hidden="true">*</span></label>
+          <input class="field__input" id="f-nome" name="nome" autocomplete="name" required aria-describedby="f-nome-err">
+          <span class="field__error" id="f-nome-err"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg>Digite seu nome.</span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="f-wa">Seu WhatsApp <span class="req" aria-hidden="true">*</span></label>
+          <input class="field__input" id="f-wa" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="(87) 9 0000-0000" required aria-describedby="f-wa-hint f-wa-err">
+          <span class="field__hint" id="f-wa-hint">Com DDD.</span>
+          <span class="field__error" id="f-wa-err"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg>Confira o número: precisa ter DDD + 8 ou 9 dígitos.</span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="f-etapa">Etapa de interesse <span class="req" aria-hidden="true">*</span></label>
+          <select class="field__input" id="f-etapa" name="etapa" required aria-describedby="f-etapa-err">
+            <option value="">Escolha uma opção</option>
+            <option>Educação Infantil</option>
+            <option>1º ano</option><option>2º ano</option><option>3º ano</option><option>4º ano</option>
+            <option>Ainda não sei — quero orientação</option>
+          </select>
+          <span class="field__error" id="f-etapa-err"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg>Escolha a etapa.</span>
+        </div>
+        <div class="field">
+          <label class="check"><input type="checkbox" name="consentimento" required aria-describedby="f-cons-err"><span>Li a <a href="/privacidade">Política de Privacidade</a> e concordo que a escola use estes dados para responder e agendar a visita. <span class="req" aria-hidden="true">*</span></span></label>
+          <span class="field__error" id="f-cons-err"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg>Marque para continuar.</span>
+        </div>
+        <label class="check"><input type="checkbox" name="novidades"><span>Quero receber novidades da escola pelo WhatsApp (opcional).</span></label>
+        <button class="btn btn--block" type="submit"><svg class="icon btn__icon" aria-hidden="true"><use href="#i-chat"/></svg>Agendar pelo WhatsApp</button>
+        <div class="form__status" role="status" aria-live="polite"></div>
+        <p class="form__privacy">Ao enviar, o WhatsApp abre com a mensagem pronta. Nada fica guardado neste site.</p>
+      </form>
+<!-- @end -->
+    </div>
+  </div>
+</section>
+<svg class="wave wave--bg" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true" style="background:var(--color-surface-dark)"><path fill="currentColor" d="M0 48C180 16 360 16 540 40s360 40 540 16 270-40 360-24V80H0Z"/></svg>
+
+<!-- 10. FAQ -->
+<section class="section" id="duvidas" aria-labelledby="faq-title">
+  <div class="container container--narrow">
+    <header class="section__header section__header--center">
+      <span class="eyebrow">Dúvidas</span>
+      <h2 id="faq-title">Perguntas que os pais <span class="hl">mais fazem</span></h2>
+    </header>
+<!-- @snippet faq -->
+    <div class="faq">
+      <details class="faq__item"><summary class="faq__q">Por que escolher uma escola particular se a pública é gratuita?</summary><div class="faq__a"><p>Cada família decide o que é melhor para o seu filho. Aqui você encontra <span class="pending">[CONFIRMAR: turmas de até X crianças]</span>, <span class="pending">[CONFIRMAR: salas climatizadas]</span> e contato direto com a professora. Venha conhecer e compare com calma.</p></div></details>
+      <details class="faq__item"><summary class="faq__q">Quanto custa? Tem alguma taxa além da mensalidade?</summary><div class="faq__a"><p><span class="pending">[PREENCHER: valores por etapa e todos os custos extras]</span>. Veja a <a href="#matriculas">proposta de contrato 2027</a>.</p></div></details>
+      <details class="faq__item"><summary class="faq__q">Quem cuida do meu filho durante o dia?</summary><div class="faq__a"><p><span class="pending">[PREENCHER: professora da turma, auxiliares, formação]</span></p></div></details>
+      <details class="faq__item"><summary class="faq__q">Como funciona a entrada e a saída das crianças?</summary><div class="faq__a"><p><span class="pending">[PREENCHER: procedimento real de entrega ao responsável]</span></p></div></details>
+      <details class="faq__item"><summary class="faq__q">Como a escola acompanha a alfabetização?</summary><div class="faq__a"><p><span class="pending">[PREENCHER: método, material e como os pais acompanham]</span>. A BNCC prevê que a alfabetização aconteça nos dois primeiros anos do Ensino Fundamental.</p></div></details>
+      <details class="faq__item"><summary class="faq__q">E quando meu filho terminar o último ano daqui?</summary><div class="faq__a"><p><span class="pending">[PREENCHER: até que ano a escola atende e como ajuda na transferência]</span></p></div></details>
+      <details class="faq__item"><summary class="faq__q">A escola é regularizada?</summary><div class="faq__a"><p>Código INEP <span class="pending">[CONFIRMAR: 26182220]</span>. Ato de autorização nº <span class="pending">[PREENCHER]</span>.</p></div></details>
+      <details class="faq__item"><summary class="faq__q">Vocês recebem crianças com deficiência? Cobra algo a mais?</summary><div class="faq__a"><p><span class="pending">[CONFIRMAR antes de publicar]</span> Recebemos, sem cobrança de valor adicional, como determina a Lei Brasileira de Inclusão. Converse com a coordenação na visita.</p></div></details>
+    </div>
+<!-- @end -->
+    <div class="cta-band" style="margin-top:var(--section-gap)">
+      <h3 class="cta-band__title">Ficou alguma dúvida?</h3>
+      <a class="btn" href="https://wa.me/5500000000000" data-wa><svg class="icon btn__icon" aria-hidden="true"><use href="#i-chat"/></svg>Perguntar no WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- 11. LOCALIZAÇÃO -->
+<section class="section section--alt" id="onde" aria-labelledby="onde-title">
+  <div class="container">
+    <header class="section__header">
+      <span class="eyebrow">Onde estamos</span>
+      <h2 id="onde-title">Venha nos <span class="hl">visitar</span></h2>
+    </header>
+<!-- @snippet location -->
+    <div class="location">
+      <div class="location__info">
+        <div class="location__row"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><p><span class="pending">[CONFIRMAR ENDEREÇO]</span><br>Loteamento Silvestre, Jupi-PE · CEP <span class="pending">[CONFIRMAR: 55395-000]</span></p></div>
+        <div class="location__row"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg><p>Secretaria: <span class="pending">[PREENCHER: dias e horários]</span></p></div>
+        <div class="location__row"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg><p>WhatsApp: <span class="pending">[CONFIRMAR: (87) 99931-9123]</span></p></div>
+        <div class="btn-group">
+          <a class="btn" href="https://wa.me/5500000000000" data-wa>Agendar visita</a>
+          <a class="btn btn--secondary" href="https://www.google.com/maps/search/?api=1&query=-8.7128022,-36.4225995" rel="noopener">Abrir no mapa</a>
+        </div>
+      </div>
+      <div class="map-facade">
+        <!-- <img class="map-facade__img" src="/img/mapa-estatico.webp" alt="" width="800" height="480" loading="lazy"> -->
+        <div class="map-facade__actions"><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><p>O mapa só carrega se você pedir.</p><button class="btn btn--sm btn--secondary" type="button">Carregar mapa</button></div>
+      </div>
+    </div>
+<!-- @end -->
+  </div>
+</section>
+
+<!-- GUIA DE ESTADOS (só na prévia) -->
+<section class="section" aria-labelledby="guia-title">
+  <div class="container">
+    <span class="staging-note">GUIA · Estados dos componentes (não vai para o site)</span>
+    <h2 id="guia-title" style="margin-bottom:var(--space-6)">Estados</h2>
+<!-- @snippet states -->
+    <div class="guide-row">
+      <a class="btn" href="#">Padrão</a>
+      <a class="btn" href="#" style="background:var(--color-primary-hover);box-shadow:var(--shadow-sticker-hover);transform:translateY(var(--translate-lift))">Hover</a>
+      <a class="btn" href="#" style="outline:var(--border-3) solid var(--color-focus);outline-offset:var(--focus-offset)">Foco</a>
+      <a class="btn" href="#" style="box-shadow:var(--shadow-sticker-active);transform:translateY(var(--translate-press))">Ativo</a>
+      <button class="btn" disabled>Desabilitado</button>
+      <button class="btn is-loading" type="button">Abrindo WhatsApp…</button>
+      <a class="btn btn--secondary" href="#">Secundário</a>
+      <a class="btn btn--link" href="#">Link</a>
+    </div>
+    <div class="guide-row" style="background:var(--color-surface-dark);padding:var(--space-4);border-radius:var(--radius-md)">
+      <a class="btn btn--on-dark" href="#">CTA sobre navy</a>
+    </div>
+    <div class="guide-row">
+      <span class="badge">Laranja</span><span class="badge badge--yellow">Amarelo</span><span class="badge badge--navy">Navy</span><span class="badge badge--pink">Rosa · Eventos</span><span class="badge badge--sky">Céu · Eventos</span><span class="pending">[PREENCHER: placeholder]</span>
+    </div>
+    <div class="grid" style="align-items:start">
+      <div class="field is-invalid">
+        <label class="field__label" for="g-wa">Seu WhatsApp <span class="req" aria-hidden="true">*</span></label>
+        <input class="field__input" id="g-wa" value="87 9931" aria-invalid="true" aria-describedby="g-wa-err">
+        <span class="field__error" id="g-wa-err"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg>Confira o número: precisa ter DDD + 8 ou 9 dígitos.</span>
+      </div>
+      <div class="field"><label class="field__label" for="g-dis">Campo desabilitado</label><input class="field__input" id="g-dis" disabled value="—"></div>
+      <div class="stack"><div class="form__status is-success">Pronto! Abrimos o WhatsApp com a sua mensagem. Se não abriu, toque aqui.</div><div class="form__status is-error">Não conseguimos abrir o WhatsApp. Ligue para <span class="pending">[número]</span>.</div></div>
+    </div>
+    <div class="cookie cookie--static" role="dialog" aria-label="Cookies" style="margin-top:var(--space-6)">
+      <p>Usamos cookies de medição para entender as visitas ao site. Você escolhe. <a href="/privacidade">Saiba mais</a>.</p>
+      <div class="cookie__actions"><button class="btn btn--sm btn--secondary" type="button">Recusar</button><button class="btn btn--sm btn--secondary" type="button">Aceitar</button></div>
+    </div>
+<!-- @end -->
+  </div>
+</section>
+
+</main>
+
+<!-- 12. RODAPÉ -->
+<!-- @snippet footer -->
+<footer class="footer" id="rodape">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <svg class="footer__logo" viewBox="0 0 48 56" role="img" aria-label="Brasão (placeholder)"><path d="M24 2 44 9v18c0 13-9 22-20 27C13 49 4 40 4 27V9Z" fill="var(--color-surface-dark-alt)" stroke="var(--color-accent)" stroke-width="3"/><text x="24" y="34" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="900" font-size="16" fill="#fff">FS</text></svg>
+      <p class="hand">Aprendizagem com diversão, alegria e amor!</p>
+    </div>
+    <nav aria-label="Rodapé"><h2>Navegação</h2><ul class="footer__list"><li><a href="#etapas">Etapas</a></li><li><a href="#matriculas">Matrículas 2027</a></li><li><a href="#duvidas">Dúvidas</a></li><li><a href="/privacidade">Política de privacidade</a></li></ul></nav>
+    <div><h2>Contato</h2><ul class="footer__list"><li><a href="https://wa.me/5500000000000" data-wa>WhatsApp <span class="pending">[CONFIRMAR]</span></a></li><li><a href="https://www.instagram.com/esc_fontedosaber/" rel="noopener">Instagram @esc_fontedosaber</a></li><li>Encarregado de dados: <span class="pending">[PREENCHER contato]</span></li></ul></div>
+  </div>
+  <div class="footer__legal">
+    <div class="container">
+      <dl>
+        <dt>Razão social</dt><dd><span class="pending">[CONFIRMAR: Escola Fonte do Saber Limitada]</span></dd>
+        <dt>CNPJ</dt><dd><span class="pending">[CONFIRMAR: 11.642.388/0001-40]</span></dd>
+        <dt>Código INEP</dt><dd><span class="pending">[CONFIRMAR: 26182220]</span></dd>
+        <dt>Autorização</dt><dd><span class="pending">[PREENCHER: ato nº, órgão e data]</span></dd>
+        <dt>Etapas autorizadas</dt><dd><span class="pending">[PREENCHER]</span></dd>
+        <dt>Endereço</dt><dd><span class="pending">[CONFIRMAR ENDEREÇO]</span>, Loteamento Silvestre, Jupi-PE</dd>
+      </dl>
+    </div>
+  </div>
+  <div class="stripe" aria-hidden="true"></div>
+</footer>
+<!-- @end -->
+
+<!-- @snippet wa-fab -->
+<a class="wa-fab" href="https://wa.me/5500000000000" data-wa aria-label="Conversar com a escola no WhatsApp"><svg class="icon" aria-hidden="true"><use href="#i-chat"/></svg></a>
+<div class="sticky-cta" aria-label="Atalho de agendamento">
+  <a class="btn" href="https://wa.me/5500000000000" data-wa><svg class="icon btn__icon" aria-hidden="true"><use href="#i-chat"/></svg>Agendar visita</a>
+</div>
+<!-- @end -->
+
+<!-- @snippet script -->
+<script>
+(() => {
+  document.documentElement.classList.add('js');
+  const WA = '5500000000000'; // vem de content.json (contato.whatsapp_e164) — só publicar se status=confirmado
+  const MSG = 'Olá! Vi o site da Escola Fonte do Saber e gostaria de agendar uma visita.';
+  const waLink = (text) => `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
+
+  // Links de WhatsApp com mensagem pronta (e etapa, quando houver)
+  document.querySelectorAll('[data-wa]').forEach(a => {
+    const etapa = a.dataset.etapa;
+    a.href = waLink(etapa ? `${MSG} Tenho interesse em: ${etapa}.` : MSG);
+    a.target = '_blank'; a.rel = 'noopener';
+  });
+
+  // Menu mobile
+  const toggle = document.querySelector('.nav__toggle[aria-controls]');
+  const panel = document.getElementById('menu-mobile');
+  const scrim = document.querySelector('.nav__scrim');
+  const setMenu = (open) => {
+    toggle.setAttribute('aria-expanded', String(open));
+    panel.dataset.open = scrim.dataset.open = String(open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) panel.querySelector('a, button')?.focus(); else toggle.focus();
+  };
+  toggle?.addEventListener('click', () => setMenu(true));
+  panel?.querySelector('[data-close]')?.addEventListener('click', () => setMenu(false));
+  scrim?.addEventListener('click', () => setMenu(false));
+  panel?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && panel?.dataset.open === 'true') setMenu(false); });
+
+  // Barra fixa (mobile) e flutuante (desktop): aparecem após o hero, somem no rodapé
+  const bar = document.querySelector('.sticky-cta'), fab = document.querySelector('.wa-fab');
+  const hero = document.querySelector('.hero'), footer = document.querySelector('.footer');
+  let heroOut = false, footerIn = false;
+  const sync = () => { bar?.classList.toggle('is-visible', heroOut && !footerIn); fab?.classList.toggle('is-hidden', footerIn); };
+  new IntersectionObserver(([e]) => { heroOut = !e.isIntersecting; sync(); }).observe(hero);
+  new IntersectionObserver(([e]) => { footerIn = e.isIntersecting; sync(); }).observe(footer);
+  // Esconde a barra quando o teclado abre (foco em campo)
+  document.addEventListener('focusin', e => { if (e.target.matches('input, select, textarea')) bar?.classList.remove('is-visible'); });
+  document.addEventListener('focusout', sync);
+
+  // Revelação suave (1x). Respeita prefers-reduced-motion via tokens (duração 0).
+  const io = new IntersectionObserver((entries) => entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -10% 0px' });
+  document.querySelectorAll('.stage-card, .feature, .event-card, .steps__item').forEach(el => { el.classList.add('reveal'); io.observe(el); });
+
+  // Formulário -> WhatsApp (nada é enviado a servidor)
+  const form = document.getElementById('form-visita');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const status = form.querySelector('.form__status');
+    let firstInvalid = null;
+    const check = (el, ok) => { el.closest('.field').classList.toggle('is-invalid', !ok); el.setAttribute('aria-invalid', String(!ok)); if (!ok && !firstInvalid) firstInvalid = el; };
+    const nome = form.nome, wa = form.whatsapp, etapa = form.etapa, cons = form.consentimento;
+    check(nome, nome.value.trim().length >= 2);
+    check(wa, /^\d{10,11}$/.test(wa.value.replace(/\D/g, '')));
+    check(etapa, etapa.value !== '');
+    check(cons, cons.checked);
+    if (firstInvalid) { firstInvalid.focus(); status.className = 'form__status is-error'; status.textContent = 'Confira os campos marcados.'; return; }
+    const texto = `${MSG}\nMeu nome: ${nome.value.trim()}\nEtapa: ${etapa.value}` + (form.novidades.checked ? '\nQuero receber novidades.' : '');
+    window.open(waLink(texto), '_blank', 'noopener');
+    status.className = 'form__status is-success';
+    status.innerHTML = `Pronto! Abrimos o WhatsApp com a sua mensagem. <a href="${waLink(texto)}" target="_blank" rel="noopener">Se não abriu, toque aqui.</a>`;
+  });
+})();
+</script>
+<!-- @end -->
+</body>
+</html>

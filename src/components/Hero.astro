@@ -1,0 +1,48 @@
+---
+// Seção 1 — Hero dividido (texto antes da imagem no celular).
+import Pending from './Pending.astro';
+import SafeImage from './SafeImage.astro';
+import Brasao from './Brasao.astro';
+import { content, get, ok } from '../lib/content';
+import { waLink } from '../lib/whatsapp';
+
+const [infantil, fundamental] = content.etapas;
+const heroImg = content.imagens.find((i) => i.slot === 'hero')!;
+
+// H1 = seo.h1 com marca-texto em "alegria e amor"
+const h1 = content.seo.h1;
+const HL = 'alegria e amor';
+const [antes, depois] = h1.split(HL);
+
+// Selo: 1 dado publicável (salas climatizadas; senão, "Em Jupi desde [ano]"). Nenhum → sem selo.
+const clima = content.diferenciais.find((d) => d.id === 'clima');
+const desde = get<string>(content.escola.ativa_desde);
+const selo = clima && ok(clima.status)
+  ? { icon: 'i-snow', text: clima.valor }
+  : desde ? { icon: 'i-calendar', text: `Em Jupi desde ${desde}` } : null;
+---
+<section class="hero" id="inicio" aria-labelledby="hero-title">
+  <div class="container hero__inner">
+    <div class="hero__content">
+      <span class="eyebrow">Escola particular em Jupi-PE</span>
+      <h1 class="hero__title" id="hero-title">{h1.includes(HL) ? <Fragment>{antes}<span class="hl">{HL}</span>{depois}</Fragment> : h1}</h1>
+      <p class="hero__lead">
+        <Pending f={infantil.nome} label="etapa infantil" /> e <Pending f={fundamental.nome} label="etapa fundamental" /> (<Pending f={fundamental.anos} label="anos atendidos" />) no <Pending f={content.contato.bairro} label="bairro" />.
+        Venha conhecer as salas, conversar com a coordenação e tirar suas dúvidas pessoalmente.
+      </p>
+      <div class="btn-group">
+        <a class="btn btn--lg" href={waLink()} data-wa><svg class="icon btn__icon" aria-hidden="true"><use href="#i-chat" /></svg>Agendar visita pelo WhatsApp</a>
+        <a class="btn btn--secondary" href="#matriculas">Ver valores e matrícula</a>
+      </div>
+      <p class="hero__note">Secretaria: <Pending f={content.contato.horario_secretaria} label="dias e horários" /> · Sem compromisso.</p>
+    </div>
+    <div class="hero__media">
+      <SafeImage img={heroImg} class="hero__img" widths={[640, 960, 1280]} sizes="(min-width: 64em) 45vw, 100vw" priority pendingText="Foto a produzir: sala de aula sem alunos">
+        <div slot="fallback" class="hero__img hero__fallback" aria-hidden="true"><Brasao class="hero__fallback-logo" decorative /></div>
+      </SafeImage>
+      {selo && (
+        <span class="hero__badge"><svg class="icon" aria-hidden="true"><use href={`#${selo.icon}`} /></svg>{selo.text}</span>
+      )}
+    </div>
+  </div>
+</section>

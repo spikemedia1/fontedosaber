@@ -1,0 +1,12 @@
+---
+import { content } from '../lib/content';
+import { waLink } from '../lib/whatsapp';
+const ano = content.matriculas.ano_letivo.valor;
+---
+<div class="topbar" role="region" aria-label="Aviso de matrículas">
+  <div class="container topbar__inner">
+    <span class="topbar__badge">{ano}</span>
+    <span>Matrículas abertas · <a href={waLink()} data-wa>agende uma visita</a></span>
+  </div>
+</div>
+<div class="stripe" aria-hidden="true"></div>
